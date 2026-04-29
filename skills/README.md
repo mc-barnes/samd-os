@@ -24,11 +24,24 @@ Generate IEC 62304, ISO 14971, and FDA-compliant artifacts directly from Claude 
 | `interview-prep` | "interview prep", "mock interview", "STAR stories" | Interactive mock interview session |
 | `networking-outreach` | "networking message", "LinkedIn outreach", "reach out to" | Personalized outreach text |
 
+### `eleanor-health/` — AI Product Management Skills
+
+Skills for AI product managers in behavioral health, covering vendor evaluation, compliance, deployment, clinical safety, and EHR integration.
+
+| Skill | Trigger Phrase | Output |
+|-------|---------------|--------|
+| `ai-vendor-eval` | "vendor eval", "AI vendor", "scorecard", "pilot design", "vendor assessment", "vendor go/no-go" | XLSX vendor scorecard |
+| `hipaa-governance` | "HIPAA", "PHI", "BAA", "data governance", "42 CFR Part 2", "SUD confidentiality" | Markdown governance framework |
+| `ai-deployment-playbook` | "AI rollout", "adoption strategy", "Claude deployment", "internal AI", "AI training", "use case prioritization" | Markdown deployment plan |
+| `clinical-safety` | "clinical safety", "crisis protocol", "escalation", "de-escalation", "scope of practice" | Markdown safety requirements |
+| `ehr-integration` | "EHR integration assessment", "athenahealth", "data flow", "API integration" | Markdown integration assessment |
+
 ### `agents/` — Specialist Personas
 
 | Agent | Use Case |
 |-------|----------|
 | `clinical-reviewer` | Neonatal SpO2 clinical logic review, alarm management, triage accuracy, handoff quality |
+| `behavioral-health-safety-reviewer` | Behavioral health AI safety review, crisis escalation, scope compliance, PHI handling |
 
 ## Installation
 
@@ -52,6 +65,9 @@ cp -r skills/samd-pm/* ~/.claude/skills/
 
 # Copy agent personas
 cp -r skills/agents/* ~/.claude/skills/agents/
+
+# Copy Eleanor Health AI skills
+cp -r skills/eleanor-health ~/.claude/skills/
 ```
 
 ### Install Individual Skills
@@ -80,6 +96,8 @@ skill-name/
 
 PM skills (`samd-pm/`) contain only `SKILL.md` — they're prompt-based, not script-based.
 
+Eleanor Health skills (`eleanor-health/`) contain `SKILL.md` + `references/`. The `ai-vendor-eval` skill also includes `scripts/` for XLSX scorecard generation.
+
 ## Generating Artifacts
 
 The regulatory skills include Python scripts that generate XLSX or JSON output:
@@ -99,6 +117,9 @@ python skills/samd-regulatory/change-impact/scripts/analyze_change_impact.py --e
 
 # Design review package
 python skills/samd-regulatory/design-review/scripts/package_design_review.py --review-type CDR --example spo2
+
+# AI vendor evaluation scorecard
+python skills/eleanor-health/ai-vendor-eval/scripts/generate_vendor_eval.py --example eleanor
 ```
 
 See `examples/` in the repo root for pre-generated sample outputs.

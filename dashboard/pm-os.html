@@ -559,7 +559,7 @@
     </div>
     <div class="nav-section">
       <span class="nav-label">Skills</span>
-      <button class="nav-item" onclick="show('skills',this)"><span class="dot" style="background:#2db87a"></span>New Skills (5)</button>
+      <button class="nav-item" onclick="show('skills',this)"><span class="dot" style="background:#2db87a"></span>New Skills (10)</button>
       <button class="nav-item" onclick="show('setup',this)"><span class="dot" style="background:#888880"></span>First Session</button>
     </div>
     <div class="nav-section">
@@ -577,9 +577,9 @@
       <div class="page-sub">Your command center for AI product management. Open this file any time: <span class="cmd">open pm-os.html</span></div>
 
       <div class="g4">
-        <div class="stat"><div class="n">41</div><div class="l">Total skills</div></div>
-        <div class="stat"><div class="n">7</div><div class="l">Sub-agents</div></div>
-        <div class="stat"><div class="n">5</div><div class="l">New this update</div></div>
+        <div class="stat"><div class="n">46</div><div class="l">Total skills</div></div>
+        <div class="stat"><div class="n">8</div><div class="l">Sub-agents</div></div>
+        <div class="stat"><div class="n">10</div><div class="l">New this update</div></div>
         <div class="stat"><div class="n">6</div><div class="l">Context layers</div></div>
       </div>
 
@@ -671,6 +671,19 @@
           <tr><td><span class="badge b-amber">7 ★</span> Application</td><td>The actual product. Focus on ONE use case and nail it.</td></tr>
           <tr><td><span class="badge b-red">8</span> Ops/Governance</td><td>Build from day one. Retrofitting governance is enormously expensive.</td></tr>
         </table>
+      </div>
+
+      <div class="sec">Agent Personas</div>
+
+      <div class="card">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">behavioral-health-safety-reviewer</div>
+            <div class="card-title" style="margin-top:6px">Behavioral Health Safety Reviewer</div>
+          </div>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Reviews AI systems for behavioral health clinical safety across 6 dimensions: crisis safety, scope compliance, de-escalation, consent, PHI handling, and handoff quality.</div>
+        <div class="pills"><span class="pill">Agent</span><span class="pill">Clinical Safety</span><span class="pill">Review</span></div>
       </div>
     </div>
 
@@ -806,10 +819,10 @@ Report 91.3%, not 85%. Raw pass rate is biased by judge imperfection.</span></di
 
     <!-- NEW SKILLS -->
     <div id="p-skills" class="panel">
-      <div class="page-title">New Skills (5)</div>
-      <div class="page-sub">The 5 skills added to fill gaps in the original OS. Drop into <span class="cmd">.claude/skills/</span></div>
+      <div class="page-title">New Skills (10)</div>
+      <div class="page-sub">The 10 skills added to fill gaps in the original OS. Drop into <span class="cmd">.claude/skills/</span></div>
 
-      <div class="callout">All 5 files are in your download. Copy them into your PM OS at <span class="cmd">.claude/skills/[skill-name]/SKILL.md</span></div>
+      <div class="callout">All skills are in your download. Copy them into your PM OS at <span class="cmd">.claude/skills/[skill-name]/SKILL.md</span></div>
 
       <div class="sec">Skills Added This Update</div>
 
@@ -873,15 +886,83 @@ Report 91.3%, not 85%. Raw pass rate is biased by judge imperfection.</span></di
         <div class="pills"><span class="pill">4D Canvas</span><span class="pill">6-layer check</span><span class="pill">Pre-launch gate</span><span class="pill">Audit doc output</span></div>
       </div>
 
+      <div class="sec">Eleanor Health AI Skills</div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">/ai-vendor-eval</div>
+            <div class="card-title" style="margin-top:6px">AI Vendor Evaluation</div>
+          </div>
+          <span class="badge b-green">New</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Generate XLSX vendor scorecards with weighted criteria, clinical safety, HIPAA compliance, integration assessment, pilot design, and contract requirements.</div>
+        <div class="pills"><span class="pill">XLSX</span><span class="pill">Vendor</span><span class="pill">HIPAA</span><span class="pill">Healthcare AI</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">/hipaa-governance</div>
+            <div class="card-title" style="margin-top:6px">HIPAA & PHI Governance</div>
+          </div>
+          <span class="badge b-green">New</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Generate HIPAA governance frameworks for AI deployments. Covers PHI controls, BAA requirements, 42 CFR Part 2 overlay, and internal AI usage policies.</div>
+        <div class="pills"><span class="pill">HIPAA</span><span class="pill">PHI</span><span class="pill">42 CFR Part 2</span><span class="pill">Governance</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">/ai-deployment-playbook</div>
+            <div class="card-title" style="margin-top:6px">AI Deployment Playbook</div>
+          </div>
+          <span class="badge b-green">New</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Plan AI tool rollouts with use case prioritization, phased deployment, training programs, adoption metrics, and success criteria.</div>
+        <div class="pills"><span class="pill">AI Adoption</span><span class="pill">Training</span><span class="pill">Metrics</span><span class="pill">Rollout</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">/clinical-safety</div>
+            <div class="card-title" style="margin-top:6px">Behavioral Health Clinical Safety</div>
+          </div>
+          <span class="badge b-green">New</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Generate clinical safety requirements for member-facing AI. Covers crisis escalation, scope of practice, de-escalation, consent, and monitoring.</div>
+        <div class="pills"><span class="pill">Clinical Safety</span><span class="pill">Crisis</span><span class="pill">Behavioral Health</span></div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">/ehr-integration</div>
+            <div class="card-title" style="margin-top:6px">EHR Integration Assessment</div>
+          </div>
+          <span class="badge b-green">New</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Assess AI integration with athenahealth and healthcare tech stacks. Covers data flow mapping, API capabilities, and compliance checkpoints.</div>
+        <div class="pills"><span class="pill">EHR</span><span class="pill">athenahealth</span><span class="pill">Integration</span><span class="pill">API</span></div>
+      </div>
+
       <div class="sec">Install Instructions</div>
       <div class="code">pm-os/
 └── .claude/
     └── skills/
-        ├── eval-setup/        SKILL.md  ← /eval-setup
-        ├── llm-judge-build/   SKILL.md  ← /llm-judge-build
-        ├── skill-optimizer/   SKILL.md  ← /skill-optimizer
-        ├── evaluate-prototype/ SKILL.md ← /evaluate-prototype
-        └── context-audit/     SKILL.md  ← /context-audit</div>
+        ├── eval-setup/            SKILL.md  ← /eval-setup
+        ├── llm-judge-build/       SKILL.md  ← /llm-judge-build
+        ├── skill-optimizer/       SKILL.md  ← /skill-optimizer
+        ├── evaluate-prototype/    SKILL.md  ← /evaluate-prototype
+        ├── context-audit/         SKILL.md  ← /context-audit
+        └── eleanor-health/
+            ├── ai-vendor-eval/    SKILL.md  ← /ai-vendor-eval
+            ├── hipaa-governance/  SKILL.md  ← /hipaa-governance
+            ├── ai-deployment-playbook/ SKILL.md ← /ai-deployment-playbook
+            ├── clinical-safety/   SKILL.md  ← /clinical-safety
+            └── ehr-integration/   SKILL.md  ← /ehr-integration</div>
     </div>
 
     <!-- FIRST SESSION -->

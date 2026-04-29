@@ -21,10 +21,20 @@ SaMD product managers using Claude Code who want regulatory-aware AI assistance.
 | Interview Prep | "interview prep", "STAR stories" | Structured prep doc |
 | Networking Outreach | "networking", "outreach message" | Personalized outreach |
 
+### Eleanor Health AI (`skills/eleanor-health/`)
+| Skill | Trigger | Output |
+|-------|---------|--------|
+| AI Vendor Evaluation | "vendor eval", "AI vendor", "scorecard", "pilot design", "vendor assessment", "vendor go/no-go" | XLSX vendor scorecard |
+| HIPAA & PHI Governance | "HIPAA", "PHI", "BAA", "data governance", "42 CFR Part 2", "SUD confidentiality" | Markdown governance framework |
+| AI Deployment Playbook | "AI rollout", "adoption strategy", "Claude deployment", "internal AI", "AI training", "use case prioritization" | Markdown deployment plan |
+| Behavioral Health Clinical Safety | "clinical safety", "crisis protocol", "crisis escalation", "de-escalation", "scope of practice" | Markdown safety requirements |
+| EHR Integration Assessment | "EHR integration assessment", "athenahealth", "data flow", "API integration" | Markdown integration assessment |
+
 ### Agent Personas (`skills/agents/`)
 | Agent | Use Case |
 |-------|----------|
 | Clinical Reviewer | Neonatal SpO2 clinical logic review, alarm management, handoff quality |
+| `behavioral-health-safety-reviewer` | Behavioral health AI safety review, crisis escalation, scope compliance, PHI handling, handoff quality |
 
 ## Workflow Router
 
@@ -60,6 +70,19 @@ Submission type: [510(k) / De Novo / PMA]
 Quality system: [e.g., ISO 13485 certified, FDA QSR]
 ```
 
+## Eleanor Health Context
+
+```
+Compliance: HIPAA, 42 CFR Part 2 (SUD confidentiality)
+Clinical domain: Behavioral health, substance use disorder, addiction treatment
+Care model: Longitudinal, whole-person, value-based, multi-state
+EHR: athenahealth (source of truth, non-negotiable for member data)
+CRM: Salesforce
+AI tools deployed: Claude Enterprise (internal), AI voice/SMS agents (member-facing)
+AI initiatives: Outbound lead conversion, pre-visit data collection, transcript/call analysis, scheduling optimization
+Tech stack: athenahealth, Salesforce, telephony, data warehouse, proprietary ops platform
+```
+
 ## Boundaries
 
 ### Always
@@ -69,6 +92,10 @@ Quality system: [e.g., ISO 13485 certified, FDA QSR]
 - Cite standards (IEC 62304, ISO 14971) when making regulatory claims
 - Run `/review-code` after any non-trivial implementation
 - Start with the simplest explanation first
+- Check HIPAA implications for any AI deployment touching PHI
+- Require BAA for any AI vendor processing PHI
+- Verify crisis escalation protocols before any member-facing AI launch
+- Cite HIPAA / 42 CFR Part 2 when making compliance claims
 
 ### Never
 - Skip risk analysis for safety-related changes
@@ -76,6 +103,10 @@ Quality system: [e.g., ISO 13485 certified, FDA QSR]
 - Push to main without approval
 - Make assumptions about regulatory requirements — ask or check the standard
 - Add features not explicitly requested
+- Deploy AI that handles PHI without a BAA in place
+- Skip clinical safety review for member-facing AI
+- Assume AI can handle crisis situations without human escalation
+- Share SUD treatment records without 42 CFR Part 2 compliant consent
 
 ## How to Customize
 1. Copy this repo to your machine
