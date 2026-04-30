@@ -9,11 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- regulatory-reviewer agent persona (`.claude/skills/agents/regulatory-reviewer/`) — FDA SaMD artifact reviewer with two-tier review model, 8 evaluation dimensions, and reference index mapping to 28 docs
+- regulatory-reviewer agent persona (`.claude/skills/agents/regulatory-reviewer/`) — FDA SaMD artifact reviewer with two-tier review model, 9 evaluation dimensions (including cybersecurity), and reference index mapping to 28+ docs
+- cybersecurity-reviewer agent persona (`.claude/skills/agents/cybersecurity-reviewer/`) ��� Medical device cybersecurity specialist covering FDA Premarket Cybersecurity Guidance (2023), Section 524B, AAMI TIR57, IEC 81001-5-1, with 8 evaluation dimensions
 - qa-reviewer agent persona (`.claude/skills/agents/qa-reviewer/`) — ISO 13485 QMS compliance reviewer with 8 evaluation dimensions
+- safety-reviewer agent persona (`.claude/skills/agents/safety-reviewer/`) — Patient safety and human factors specialist covering ISO 14971, IEC 62366-1, AI/ML output safety, with 7 evaluation dimensions
 - Cybersecurity section in regulatory-reviewer covering FDA Premarket Cybersecurity Guidance (2023), SBOM, AAMI TIR57, IEC 81001-5-1
-- AI disclaimer on all agent review outputs
-- Jurisdiction statement (FDA only) on all regulatory-reviewer outputs
+- AI disclaimer on all agent review outputs (regulatory, clinical, QA, safety, cybersecurity)
+- Jurisdiction statement (FDA only) on regulatory-reviewer outputs
+- 3 cybersecurity reference docs in `references/cybersecurity/` (FDA cybersecurity FAQ, 524B select updates, postmarket guidance)
+- Test fixtures in `examples/test-fixtures/` — 4 deliberately broken SaMD artifacts for validating regulatory-reviewer agent detection
+- DEC-001 review-panel orchestration decision stub in `team/decisions/`
+- `team/specs/` directory for completed specification documents
 - CHANGELOG.md (this file)
 - Risk acceptability matrix extracted to `regulatory/risk-management/risk-acceptability-matrix-v1.md`
 
@@ -24,11 +30,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - FMEA/RPN explicitly scoped as process FMEA with ISO 14971:2019 Annex G citation
 - Clinical-reviewer reframed away from named-person impersonation to RPM pattern
 - Regulatory-reviewer citation accuracy: "six traceability chains" reframed as industry best practice; software hazard probability softened from universal rule to common approach
-- `status.sh` simplified: frontmatter-based filtering replaces hardcoded filename exclusions
+- `status.sh` simplified: frontmatter-based filtering replaces hardcoded filename exclusions; test fixtures excluded
+- SPEC.md moved from root to `team/specs/regulatory-reviewer-agent-v1.md` with frontmatter
 
 ### Fixed
 
 - Mermaid block rendering in README
+- Cybersecurity-reviewer FDA guidance date corrected from 2026 to 2023
 
 ## [1.0.0] - 2025-04-28
 

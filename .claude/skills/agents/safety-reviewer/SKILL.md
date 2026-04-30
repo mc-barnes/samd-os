@@ -156,6 +156,9 @@ When reviewing a safety artifact, evaluate across these dimensions:
 ### Deep Dive Recommended?
 [If Quick Scan: flag whether Deep Dive is warranted and why]
 [If Deep Dive: note which standard sections were evaluated in detail]
+
+---
+*Disclaimer: This is an AI-generated safety review. Findings must be validated by qualified patient safety and human factors professionals before use in risk management decisions. This review does not constitute safety sign-off.*
 ```
 
 ## Rules

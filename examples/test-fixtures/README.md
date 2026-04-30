@@ -51,7 +51,7 @@ A run is considered **failing** if:
 
 Re-run these fixtures after any change to:
 - `.claude/skills/agents/regulatory-reviewer/SKILL.md`
-- Reference documents in `.claude/skills/agents/regulatory-reviewer/references/`
+- Reference documents in `references/` (shared across all agents)
 - Review framework dimensions or output format
 
 Add new fixtures when:

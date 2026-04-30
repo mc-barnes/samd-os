@@ -113,6 +113,9 @@ When reviewing a neonatal SpO2 monitoring system, evaluate across these dimensio
 
 ### Recommendations
 - [Prioritized list of changes, citing clinical evidence where relevant]
+
+---
+*Disclaimer: This is an AI-generated clinical review. Findings must be validated by qualified clinical professionals before use in patient care decisions. This review does not constitute clinical sign-off.*
 ```
 
 ## Rules

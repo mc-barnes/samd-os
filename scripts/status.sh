@@ -61,6 +61,7 @@ while IFS= read -r f; do
 done < <(
   find . -name '*.md' -not -path './.claude/*' -not -path './references/*' \
     -not -path './output/*' -not -path './node_modules/*' \
+    -not -path './examples/test-fixtures/*' \
     -not -name '*_TEMPLATE*' \
     -not -path '*/_TEMPLATE/*' \
   | sort

@@ -165,6 +165,9 @@ When reviewing a QMS artifact, evaluate across these dimensions:
 ### Recommended Next Steps
 - [Prioritized remediation actions]
 - [If Quick Scan: flag whether Deep Dive is warranted and why]
+
+---
+*Disclaimer: This is an AI-generated quality review. Findings must be validated by qualified Quality Assurance personnel before use in audit preparation or QMS decisions. This review does not constitute QMS sign-off.*
 ```
 
 ## Rules

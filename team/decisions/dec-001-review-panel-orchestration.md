@@ -7,6 +7,8 @@ related:
   - .claude/skills/agents/regulatory-reviewer/SKILL.md
   - .claude/skills/agents/clinical-reviewer/SKILL.md
   - .claude/skills/agents/qa-reviewer/SKILL.md
+  - .claude/skills/agents/cybersecurity-reviewer/SKILL.md
+  - .claude/skills/agents/safety-reviewer/SKILL.md
 ---
 # Decision: DEC-001 — Review Panel Orchestration
 
