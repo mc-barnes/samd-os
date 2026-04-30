@@ -10,6 +10,8 @@ Skill-generated XLSX, JSON, and Markdown files are **uncontrolled drafts** — n
 
 ## What's Included
 
+Skills generate artifacts; agents review them.
+
 ### Reviewer Agents (`.claude/skills/agents/`)
 
 Five specialist reviewers that operate from a defined regulatory or clinical perspective. Each is a standalone `SKILL.md` — clone the folder, swap the domain knowledge, and you have a new reviewer for your vertical.
