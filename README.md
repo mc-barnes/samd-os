@@ -19,7 +19,7 @@ Five specialist reviewers that operate from a defined regulatory or clinical per
 | Regulatory Reviewer | PRDs, design controls, risk docs, submissions, change requests | IEC 62304:2006+A1:2015, ISO 14971:2019, ISO 13485:2016, IEC 62366-1:2015+A1:2020, FDA guidance | ACCEPTABLE / NEEDS REVISION / NOT SUBMITTABLE |
 | QA Reviewer | CAPA records, complaint files, audit findings, supplier evaluations, management reviews | ISO 13485:2016, 21 CFR 820, ISO 19011:2018 | AUDIT-READY / NEEDS REMEDIATION / NOT AUDIT-READY |
 | Safety Reviewer | Risk analysis, FMEA, use-related risk, usability files, AI/ML output safety | ISO 14971:2019, IEC 62366-1:2015+A1:2020, FDA Human Factors guidance | ACCEPTABLE / NEEDS REVISION / SAFETY CONCERN |
-| Cybersecurity Reviewer | Threat models, SBOMs, security architecture, pen test reports, vulnerability management | FDA Premarket Cybersecurity Guidance (2025), Section 524B, AAMI TIR57:2016, IEC 81001-5-1:2021 | ACCEPTABLE / NEEDS REVISION / SECURITY CONCERN |
+| Cybersecurity Reviewer | Threat models, SBOMs, security architecture, pen test reports, vulnerability management | FDA Premarket Cybersecurity Guidance (June 2025), Section 524B, AAMI TIR57:2016, IEC 81001-5-1:2021 | ACCEPTABLE / NEEDS REVISION / SECURITY CONCERN |
 | Clinical Reviewer | Clinical logic, alarm management, triage accuracy, handoff quality | Published neonatal literature, AAP guidelines, NRP protocols | ACCEPTABLE / NEEDS REVISION / CLINICALLY UNSAFE |
 
 #### What the agents actually catch
@@ -79,6 +79,8 @@ The `examples/` folder contains pre-generated artifacts using a neonatal pulse o
 | `change-impact-example.xlsx` | Change Impact | Software change impact with re-verification scope |
 | `design-review-example.xlsx` | Design Review | CDR gate package with GO/NO-GO recommendation |
 
+**What makes a SaMD PRD different?** The [example PRD](examples/samd-prd-example.md) includes sections you won't find in a generic product spec: intended use / indications for use (§1), regulatory context with device classification and IEC 62304 software class (§3), clinical requirements with validation plan and performance targets (§4), design inputs traceable by requirement ID (§5), EHR integration with HL7/FHIR specs (§7), and a preliminary risk analysis per ISO 14971 (§8).
+
 ## Architecture
 
 ```mermaid
@@ -112,6 +114,8 @@ graph TD
 
 Every folder has a `CLAUDE.md` navigation map. Claude reads the root on every session and only loads deeper context when a query targets that domain — keeping context usage under 5% for most operations.
 
+Multi-agent reviews run all relevant reviewers in parallel via a configurable orchestration skill — see [DEC-001](team/decisions/dec-001-review-panel-orchestration.md) for the design.
+
 ### Context Management
 
 | Tier | What | When Loaded | Example |
@@ -121,6 +125,25 @@ Every folder has a `CLAUDE.md` navigation map. Claude reads the root on every se
 | **Tier 3** | Templates and documents | On demand when referenced | `regulatory/risk-management/_TEMPLATE.md` |
 
 A query about customers loads `product/CLAUDE.md` and relevant customer files — it never touches `analytics/`, `engineering/`, or `regulatory/`. This keeps context usage minimal and responses focused.
+
+## Project Status
+
+Ready for small-team pilots. Not yet validated for enterprise rollout — and that's intentional. Start with one PM, one product, one sprint. Evaluate agent findings against your RA/QA team's own assessments. If the findings are useful, expand.
+
+For adoption planning, see [Adoption Guide](docs/adoption-guide.md). For validation details and QMS integration, see [Responsible Use](docs/responsible-use.md). For audit preparation, see [Auditor Briefing](docs/auditor-briefing.md).
+
+## Cost
+
+Agent reviews use the Claude API. Costs depend on artifact length and number of agents invoked.
+
+| Operation | Estimated Cost |
+|-----------|---------------|
+| Single agent review | $0.05 – $0.15 |
+| Full review panel (5 agents) | $0.25 – $0.75 |
+| Eval run (20 fixtures) | ~$2.00 |
+| Weekly team usage (5 artifacts, panel review) | $5 – $15/month |
+
+Estimates based on current Claude API pricing as of April 2026. For a team of 3-5, expect $10-30/month in typical usage.
 
 ## Getting Started
 
@@ -166,6 +189,8 @@ Run the status generator to see what's draft, in-review, approved, or stale:
 ./scripts/status.sh    # generates STATUS.md from frontmatter
 ```
 
+`status.sh` scans all markdown files for YAML frontmatter (`type`, `status`, `owner`, `last-reviewed`), groups them by lifecycle stage, and flags documents older than 14 days as stale. Use the output for weekly team syncs — it shows at a glance which artifacts are waiting for review, which are approved, and which need attention.
+
 <details>
 <summary>Folder Structure</summary>
 
@@ -205,7 +230,8 @@ samd-os/
 ├── engineering/                 # Bugs, RFCs, IEC 62304 SDLC
 ├── quality/                     # CAPA, complaints, audit prep
 ├── team/                        # Onboarding, retros, decisions
-├── scripts/                     # status.sh → generates STATUS.md from frontmatter
+├── scripts/                     # status.sh, eval-agents.sh
+├── docs/                        # Adoption guide, responsible use, auditor briefing
 │
 └── examples/                    # Pre-generated artifacts
     ├── design-controls-example.xlsx
@@ -213,7 +239,8 @@ samd-os/
     ├── fhir-bundle-example.json
     ├── samd-prd-example.md
     ├── change-impact-example.xlsx
-    └── design-review-example.xlsx
+    ├── design-review-example.xlsx
+    └── test-fixtures/              # 20 deliberately broken artifacts for agent validation
 ```
 
 </details>

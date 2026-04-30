@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-04-30
+
+### Added
+
+- `docs/` directory with adoption and trust-building documentation:
+  - `docs/responsible-use.md` — what agents are/aren't, intended use within a QMS, known limitations, validation approach, human accountability
+  - `docs/adoption-guide.md` — who runs it, where it fits vs Jira/Confluence/eQMS, cost model, organizational prep, team structure models
+  - `docs/auditor-briefing.md` — one-page scope/limitations summary with prepared answers for auditor questions about AI tool usage
+  - `docs/eval-results-2026-04-30.md` — committed dry-run evaluation results (20/20 fixtures pass format validation)
+- Project Status section in README — maturity acknowledgment ("ready for small-team pilots, not enterprise rollout")
+- Cost section in README — per-review, per-panel, and monthly team estimates
+- PRD example preview in README — highlights what makes a SaMD PRD different from a generic one
+- DEC-001 orchestration link surfaced in README Architecture section
+- STATUS.md explanation expanded with usage guidance (weekly sync artifact)
+- Test fixtures and docs/ added to folder structure diagram in README
+
+### Fixed
+
+- Cybersecurity Reviewer standards column in README: `(2025)` → `(June 2025)` to match CHANGELOG/SKILL.md
+
 ## [1.1.0] - 2025-04-30
 
 ### Added
