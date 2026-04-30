@@ -559,7 +559,7 @@
     </div>
     <div class="nav-section">
       <span class="nav-label">Skills</span>
-      <button class="nav-item" onclick="show('skills',this)"><span class="dot" style="background:#2db87a"></span>New Skills (10)</button>
+      <button class="nav-item" onclick="show('skills',this)"><span class="dot" style="background:#2db87a"></span>Skills (18)</button>
       <button class="nav-item" onclick="show('setup',this)"><span class="dot" style="background:#888880"></span>First Session</button>
     </div>
     <div class="nav-section">
@@ -577,9 +577,9 @@
       <div class="page-sub">Your command center for AI product management. Open this file any time: <span class="cmd">open pm-os.html</span></div>
 
       <div class="g4">
-        <div class="stat"><div class="n">46</div><div class="l">Total skills</div></div>
+        <div class="stat"><div class="n">54</div><div class="l">Total skills</div></div>
         <div class="stat"><div class="n">8</div><div class="l">Sub-agents</div></div>
-        <div class="stat"><div class="n">10</div><div class="l">New this update</div></div>
+        <div class="stat"><div class="n">18</div><div class="l">New this update</div></div>
         <div class="stat"><div class="n">6</div><div class="l">Context layers</div></div>
       </div>
 
@@ -819,12 +819,110 @@ Report 91.3%, not 85%. Raw pass rate is biased by judge imperfection.</span></di
 
     <!-- NEW SKILLS -->
     <div id="p-skills" class="panel">
-      <div class="page-title">New Skills (10)</div>
-      <div class="page-sub">The 10 skills added to fill gaps in the original OS. Drop into <span class="cmd">.claude/skills/</span></div>
+      <div class="page-title">Skills (18)</div>
+      <div class="page-sub">All skills added to fill gaps in the original OS. Drop into <span class="cmd">.claude/skills/</span></div>
 
       <div class="callout">All skills are in your download. Copy them into your PM OS at <span class="cmd">.claude/skills/[skill-name]/SKILL.md</span></div>
 
-      <div class="sec">Skills Added This Update</div>
+      <div class="sec">Core PM Skills (8)</div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">"general PRD", "product spec"</div>
+            <div class="card-title" style="margin-top:6px">PRD Writer</div>
+          </div>
+          <span class="badge b-blue">Core PM</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Generate a 1-2 page product requirements document for any product or feature. Overview, user stories, requirements, user flow, success metrics, scope, open questions.</div>
+        <div class="pills"><span class="pill">Markdown</span><span class="pill">Any industry</span><span class="pill">1-2 pages</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">"define metrics", "KPIs", "north star"</div>
+            <div class="card-title" style="margin-top:6px">Metrics Definition</div>
+          </div>
+          <span class="badge b-blue">Core PM</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Define North Star, input metrics, guardrails, targets, and anti-metrics. Forces exactly one North Star and mandatory anti-metrics section.</div>
+        <div class="pills"><span class="pill">North Star</span><span class="pill">Guardrails</span><span class="pill">Anti-metrics</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">"decision doc", "RFC", "ADR"</div>
+            <div class="card-title" style="margin-top:6px">Decision Doc</div>
+          </div>
+          <span class="badge b-blue">Core PM</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Record a product or technical decision with context, options, trade-offs, and recommendation. Requires ≥2 real options, reversibility assessment, and "What We're Giving Up" section.</div>
+        <div class="pills"><span class="pill">Options</span><span class="pill">Trade-offs</span><span class="pill">Reversibility</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">"status update", "weekly update"</div>
+            <div class="card-title" style="margin-top:6px">Status Update</div>
+          </div>
+          <span class="badge b-blue">Core PM</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Structured status update that leads with the headline. GREEN/YELLOW/RED + one-sentence summary first. Decisions needed with options and recommendations.</div>
+        <div class="pills"><span class="pill">1 page</span><span class="pill">Status color</span><span class="pill">Decisions needed</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">"synthesize research", "summarize interviews"</div>
+            <div class="card-title" style="margin-top:6px">Research Synthesis</div>
+          </div>
+          <span class="badge b-blue">Core PM</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Turn raw user research into actionable product decisions. Key findings with evidence and confidence levels, patterns with frequency, surprises, and specific product implications.</div>
+        <div class="pills"><span class="pill">Evidence-based</span><span class="pill">Confidence levels</span><span class="pill">No fabrication</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">"competitive analysis", "comp analysis"</div>
+            <div class="card-title" style="margin-top:6px">Competitive Analysis</div>
+          </div>
+          <span class="badge b-blue">Core PM</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Structured competitive landscape that informs product decisions. Competitor profiles with weaknesses, feature comparison matrix, strategic insights, and actionable implications.</div>
+        <div class="pills"><span class="pill">3-5 competitors</span><span class="pill">Weaknesses</span><span class="pill">Implications</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">"prioritize features", "RICE scoring"</div>
+            <div class="card-title" style="margin-top:6px">Feature Prioritization</div>
+          </div>
+          <span class="badge b-blue">Core PM</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Turn a messy backlog into a scored, ranked, defensible build order. RICE scoring by default. Build Now / Build Next / Build Later / Don't Build tiers.</div>
+        <div class="pills"><span class="pill">RICE</span><span class="pill">4 tiers</span><span class="pill">Dependencies</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+          <div>
+            <div class="skill-trigger">"product roadmap", "quarterly plan"</div>
+            <div class="card-title" style="margin-top:6px">Roadmap Planning</div>
+          </div>
+          <span class="badge b-blue">Core PM</span>
+        </div>
+        <div class="card-body" style="margin-bottom:10px">Time-based product roadmap organized by outcomes. Now/Next/Later with decreasing specificity. ≤5 items in Now. Mandatory "What We're NOT Doing" section.</div>
+        <div class="pills"><span class="pill">Now/Next/Later</span><span class="pill">Outcomes</span><span class="pill">What we cut</span></div>
+      </div>
+
+      <div class="sec">AI PM Skills (5)</div>
 
       <div class="card" style="margin-bottom:12px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
@@ -952,6 +1050,15 @@ Report 91.3%, not 85%. Raw pass rate is biased by judge imperfection.</span></di
       <div class="code">pm-os/
 └── .claude/
     └── skills/
+        ├── pm-core/
+        │   ├── prd-writer/            SKILL.md  ← "general PRD"
+        │   ├── metrics-definition/    SKILL.md  ← "define metrics"
+        │   ├── decision-doc/          SKILL.md  ← "decision doc"
+        │   ├── status-update/         SKILL.md  ← "status update"
+        │   ├── research-synthesis/    SKILL.md  ← "synthesize research"
+        │   ├── competitive-analysis/  SKILL.md  ← "competitive analysis"
+        │   ├── feature-prioritization/ SKILL.md ← "prioritize features"
+        │   └── roadmap-planning/      SKILL.md  ← "product roadmap"
         ├── eval-setup/            SKILL.md  ← /eval-setup
         ├── llm-judge-build/       SKILL.md  ← /llm-judge-build
         ├── skill-optimizer/       SKILL.md  ← /skill-optimizer
