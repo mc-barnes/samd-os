@@ -29,7 +29,7 @@ graph TD
     TEAM --> T_NAV["CLAUDE.md<br/><i>Onboarding, retros</i>"]
 
     SKILLS --> S1["14 skills"]
-    SKILLS --> S2["4 agent personas"]
+    SKILLS --> S2["5 agent personas"]
 
     style ROOT fill:#1F4E79,color:#fff
     style SKILLS fill:#2E7D32,color:#fff
@@ -67,6 +67,7 @@ Specialist reviewers that operate from a defined clinical or regulatory perspect
 | Regulatory Reviewer | FDA SaMD submissions (510(k), De Novo, PMA). Reviews PRDs, design controls, risk docs, CAPA, PMS reports, change requests, and SOPs. | IEC 62304, ISO 14971, ISO 13485, IEC 62366-1, IMDRF N41, FDA PCCP guidance, 21 CFR 820. Backed by 28 reference docs. |
 | QA Reviewer | ISO 13485 QMS compliance. Reviews CAPA records, complaint files, audit findings, nonconformances, supplier evaluations, management review inputs, and QMS procedures. | ISO 13485:2016, 21 CFR 820, ISO 19011:2018, 21 CFR 803. |
 | Safety Reviewer | Patient safety and human factors. Reviews risk analysis files, FMEA quality, use-related risk analysis, usability engineering files, foreseeable misuse, and AI/ML output safety. | ISO 14971:2019, IEC 62366-1:2015+A1:2020, FDA Human Factors guidance, AAMI TIR57. |
+| Cybersecurity Reviewer | Medical device cybersecurity. Reviews threat models, cybersecurity risk assessments, SBOMs, security architecture views, security controls, penetration test reports, vulnerability management plans, and Section 524B compliance. | FDA Premarket Cybersecurity Guidance (2026), FDA Postmarket Cybersecurity Guidance (2016), FD&C Act Section 524B, AAMI TIR57, IEC 81001-5-1, NIST CSF. Backed by 3 reference docs. |
 | Clinical Reviewer | RPM clinical reviewer with neonatal SpO2 domain expertise. Reviews clinical logic, alarm management, triage accuracy, and handoff quality. | Bonafide et al. (SpO2 accuracy), AAP consensus (cardiorespiratory monitoring), Owlet validation studies, NRP guidelines. |
 
 ## Folder Structure
@@ -97,6 +98,7 @@ pm-os/
 │       ├── regulatory-reviewer/ # FDA SaMD submission reviewer
 │       ├── qa-reviewer/         # ISO 13485 QMS auditor
 │       ├── safety-reviewer/     # Patient safety & human factors
+│       ├── cybersecurity-reviewer/ # Medical device cybersecurity & 524B
 │       └── clinical-reviewer/   # Domain expert (example: neonatal SpO2)
 │
 ├── product/                     # PRDs, strategy, competitive, customers
