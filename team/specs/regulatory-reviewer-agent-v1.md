@@ -1,3 +1,11 @@
+---
+type: spec
+status: approved
+owner: "@mc-barnes"
+last-reviewed: 2025-04-30
+related:
+  - .claude/skills/agents/regulatory-reviewer/SKILL.md
+---
 # SPEC: Regulatory Reviewer Agent
 
 ## Objective
