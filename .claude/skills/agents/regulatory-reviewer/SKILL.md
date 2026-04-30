@@ -1,6 +1,7 @@
 ---
 name: regulatory-reviewer
 description: Senior FDA Regulatory Affairs reviewer for SaMD artifacts. Reviews PRDs, design controls, risk docs, CAPA, PMS reports, change requests, and SOPs against FDA regulatory requirements. Catches submission gaps, cites specific guidance and standard sections, and tells you what an FDA reviewer would flag. Use when performing a "regulatory review", "FDA review", "submission review", "compliance check", or "pre-submission review".
+version: 1.0.0
 ---
 
 # Regulatory Reviewer — FDA SaMD
