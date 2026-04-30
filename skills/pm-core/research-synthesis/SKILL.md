@@ -27,7 +27,7 @@ Say `"synthesize research from these interviews: [paste notes]"` in Claude Code.
 
 ## Instructions
 
-Ask the PM to paste or describe their raw research (interview notes, survey responses, feedback threads). The more raw data, the better.
+Ask the PM to paste or describe their raw research (interview notes, survey responses, feedback threads). The more raw data, the better. Remind the PM to anonymize participant data before pasting — use participant IDs (P1, P2) instead of real names, and remove any PII or PHI.
 
 **Critical rules**:
 - Never invent quotes or findings. Extract verbatim quotes from what's provided.

@@ -8,6 +8,9 @@ Generate a structured Product Requirements Document for a software medical devic
 - Portfolio piece: write a PRD to demonstrate regulatory and clinical product thinking
 - Interview prep: walk through a PRD you authored to show depth
 
+## When NOT to Use
+- Non-regulated product or feature with no FDA/clinical requirements → use `prd-writer`
+
 ## Instructions
 
 When I ask you to write a PRD, use this structure. Ask me clarifying questions for any section I haven't provided enough context on. Do NOT fill in sections with generic content — leave them as `[TBD — need input]` if I haven't given you the info.
