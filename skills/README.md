@@ -1,8 +1,23 @@
 # PM OS Skills
 
-Claude Code skills for SaMD product management. Each skill extends Claude with domain-specific knowledge, workflow automation, and artifact generation.
+Claude Code skills for product management. Each skill extends Claude with domain-specific knowledge, workflow automation, and artifact generation. Includes general-purpose PM skills for any industry, plus specialized skills for SaMD regulatory work and AI product management.
 
 ## Categories
+
+### `pm-core/` — Core PM Skills
+
+General-purpose PM deliverables for any industry. Pure prompt-based — each skill is a single `SKILL.md` with markdown output.
+
+| Skill | Trigger Phrase | Output |
+|-------|---------------|--------|
+| `prd-writer` | "general PRD", "product spec", "feature requirements", "feature spec", "PRD for [product]" | Markdown PRD |
+| `metrics-definition` | "define metrics", "success metrics", "KPIs", "how do we measure", "north star metric", "OKRs" | Markdown metrics framework |
+| `decision-doc` | "decision doc", "write a decision document", "document this decision", "RFC", "design decision", "ADR" | Markdown decision record |
+| `status-update` | "write a status update", "weekly update", "stakeholder update", "exec summary", "project status" | Markdown status report |
+| `research-synthesis` | "synthesize research", "research synthesis", "summarize interviews", "user research summary", "interview findings" | Markdown research summary |
+| `competitive-analysis` | "competitive analysis", "competitor analysis", "competitive landscape", "comp analysis", "market analysis" | Markdown competitive report |
+| `feature-prioritization` | "prioritize features", "feature prioritization", "what should we build next", "backlog prioritization", "RICE scoring" | Markdown ranked backlog |
+| `roadmap-planning` | "plan a roadmap", "product roadmap", "quarterly plan", "what should we build this quarter" | Markdown roadmap |
 
 ### `samd-regulatory/` — Regulatory Document Generators
 
@@ -57,10 +72,13 @@ Skills for AI product managers in behavioral health, covering vendor evaluation,
 git clone https://github.com/mc-barnes/pm-os.git
 cd pm-os
 
+# Copy core PM skills
+cp -r skills/pm-core/* ~/.claude/skills/
+
 # Copy regulatory skills
 cp -r skills/samd-regulatory/* ~/.claude/skills/
 
-# Copy PM skills
+# Copy SaMD PM skills
 cp -r skills/samd-pm/* ~/.claude/skills/
 
 # Copy agent personas
@@ -94,7 +112,7 @@ skill-name/
 └── scripts/          # Python generators for XLSX/JSON output (regulatory skills)
 ```
 
-PM skills (`samd-pm/`) contain only `SKILL.md` — they're prompt-based, not script-based.
+Core PM skills (`pm-core/`) and SaMD PM skills (`samd-pm/`) contain only `SKILL.md` — they're prompt-based, not script-based.
 
 Eleanor Health skills (`eleanor-health/`) contain `SKILL.md` + `references/`. The `ai-vendor-eval` skill also includes `scripts/` for XLSX scorecard generation.
 

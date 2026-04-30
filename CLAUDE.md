@@ -1,9 +1,21 @@
 # PM OS — Claude Code Configuration
 
 ## Who This Is For
-SaMD product managers using Claude Code who want regulatory-aware AI assistance. This file configures Claude Code with domain-specific skills, workflow routing, and safety boundaries for software medical device work.
+Product managers using Claude Code who want AI-powered PM workflows. Includes general-purpose PM skills for any industry, plus specialized skills for SaMD regulatory work, AI product management, and behavioral health.
 
 ## Skills Available
+
+### Core PM (`skills/pm-core/`)
+| Skill | Trigger | Output |
+|-------|---------|--------|
+| PRD Writer | "general PRD", "product spec", "feature requirements", "feature spec", "PRD for [product]" | Markdown PRD |
+| Metrics Definition | "define metrics", "success metrics", "KPIs", "how do we measure", "north star metric", "OKRs" | Markdown metrics framework |
+| Decision Doc | "decision doc", "write a decision document", "document this decision", "RFC", "design decision", "ADR" | Markdown decision record |
+| Status Update | "write a status update", "weekly update", "stakeholder update", "exec summary", "project status" | Markdown status report |
+| Research Synthesis | "synthesize research", "research synthesis", "summarize interviews", "user research summary", "interview findings" | Markdown research summary |
+| Competitive Analysis | "competitive analysis", "competitor analysis", "competitive landscape", "comp analysis", "market analysis" | Markdown competitive report |
+| Feature Prioritization | "prioritize features", "feature prioritization", "what should we build next", "backlog prioritization", "RICE scoring" | Markdown ranked backlog |
+| Roadmap Planning | "plan a roadmap", "product roadmap", "quarterly plan", "what should we build this quarter" | Markdown roadmap |
 
 ### SaMD Regulatory (`skills/samd-regulatory/`)
 | Skill | Trigger | Output |
