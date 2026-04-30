@@ -10,10 +10,10 @@ related:
 
 ## Objective
 
-Build a regulatory-reviewer agent persona for pm-os that reviews PM artifacts (PRDs, design controls, risk docs, CAPA, PMS reports, change requests, SOPs) against FDA regulatory requirements. The agent acts like an opinionated senior Regulatory Affairs professional — it pushes back hard on gaps, cites specific FDA guidance, and tells you what an FDA reviewer would flag before you submit.
+Build a regulatory-reviewer agent persona for samd-os that reviews PM artifacts (PRDs, design controls, risk docs, CAPA, PMS reports, change requests, SOPs) against FDA regulatory requirements. The agent acts like an opinionated senior Regulatory Affairs professional — it pushes back hard on gaps, cites specific FDA guidance, and tells you what an FDA reviewer would flag before you submit.
 
 ### Target Users
-- SaMD product teams using pm-os
+- SaMD product teams using samd-os
 - PMs, engineers, and QA leads drafting regulated artifacts
 - Anyone preparing documents for FDA 510(k) or De Novo submissions
 
@@ -49,8 +49,8 @@ Artifact Type          → Reference Docs for Deep Dive
 ─────────────────────────────────────────────────────
 PRD / Intended Use     → mdr-intended-use, imdrf-samd-clinical-evaluation
 Software Requirements  → checklist-software-requirements-review, software-requirements-list
-Design Controls        → (existing design-controls skill in pm-os)
-Risk Management        → (existing risk-management skill in pm-os)
+Design Controls        → (existing design-controls skill in samd-os)
+Risk Management        → (existing risk-management skill in samd-os)
 SOUP/Third-party SW    → soup-list
 Change Request         → sop-change-management, fda-predetermined-change-control
 CAPA                   → sop-capa
@@ -215,7 +215,7 @@ Reference docs remain in `references/` (already ingested, shared across all agen
 
 - 37 reference docs in `references/` (done)
 - Clinical-reviewer agent as pattern (exists at `.claude/skills/agents/clinical-reviewer/SKILL.md`)
-- Existing pm-os skills: design-controls, risk-management, change-impact (agent should complement, not duplicate)
+- Existing samd-os skills: design-controls, risk-management, change-impact (agent should complement, not duplicate)
 
 ## What This Is NOT
 

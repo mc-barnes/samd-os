@@ -129,8 +129,8 @@ A query about customers loads `product/CLAUDE.md` and relevant customer files �
 ### 1. Fork this repo
 
 ```bash
-git clone https://github.com/mc-barnes/pm-os.git
-cd pm-os
+git clone https://github.com/mc-barnes/samd-os.git
+cd samd-os
 ```
 
 ### 2. Customize the root CLAUDE.md
@@ -170,7 +170,7 @@ Run the status generator to see what's draft, in-review, approved, or stale:
 <summary>Folder Structure</summary>
 
 ```
-pm-os/
+samd-os/
 ├── CLAUDE.md                    # Root nav — always loaded
 ├── README.md
 ├── CONTRIBUTING.md
