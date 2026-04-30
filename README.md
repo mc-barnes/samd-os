@@ -1,82 +1,176 @@
-# PM OS — AI-Powered Product Management for SaMD
+# SaMD Team OS
 
-An open-source collection of Claude Code skills, agent personas, and workflow templates purpose-built for Software as a Medical Device (SaMD) product managers. These tools bring regulatory awareness (IEC 62304, ISO 14971, FDA guidance) directly into your AI-assisted development workflow.
+An AI-powered operating system for regulated medical device product teams. One repo. Every function checks in work. Any AI agent traverses it. Everyone self-serves.
 
-## Why This Exists
+SaMD Team OS gives your team a shared structure that Claude Code understands out of the box — with skills that generate regulatory artifacts (IEC 62304, ISO 14971, FDA guidance), templates that encode your QMS workflows, and a navigation layer that keeps AI context usage efficient.
 
-SaMD PMs operate under unique constraints: design controls, risk management files, V&V traceability, and regulatory submissions are table stakes — not afterthoughts. General-purpose AI tools don't understand this context. PM OS bridges that gap by giving Claude Code domain-specific skills that generate regulatory artifacts, enforce safety boundaries, and follow the standards your QMS requires.
+## Architecture
+
+```mermaid
+graph TD
+    ROOT["CLAUDE.md<br/><i>Always loaded — doc index, team, device context</i>"]
+
+    ROOT --> PROD["product/"]
+    ROOT --> REG["regulatory/"]
+    ROOT --> CLIN["clinical/"]
+    ROOT --> ANA["analytics/"]
+    ROOT --> ENG["engineering/"]
+    ROOT --> QUAL["quality/"]
+    ROOT --> TEAM["team/"]
+    ROOT --> SKILLS[".claude/skills/"]
+    ROOT --> EX["examples/"]
+
+    PROD --> P_NAV["CLAUDE.md<br/><i>PRDs, customers, competitive, strategy</i>"]
+    REG --> R_NAV["CLAUDE.md<br/><i>Design controls, risk, submissions, DHF</i>"]
+    CLIN --> C_NAV["CLAUDE.md<br/><i>Intended use, usability</i>"]
+    ANA --> A_NAV["CLAUDE.md<br/><i>Post-market surveillance, product metrics</i>"]
+    ENG --> E_NAV["CLAUDE.md<br/><i>Bugs, RFCs, IEC 62304 SDLC</i>"]
+    QUAL --> Q_NAV["CLAUDE.md<br/><i>CAPA, complaints, audits</i>"]
+    TEAM --> T_NAV["CLAUDE.md<br/><i>Onboarding, retros</i>"]
+
+    SKILLS --> S1["14 skills"]
+    SKILLS --> S2["1 agent persona"]
+
+    style ROOT fill:#1F4E79,color:#fff
+    style SKILLS fill:#2E7D32,color:#fff
+```
+
+Every folder has a `CLAUDE.md` navigation map. Claude reads the root on every session and only loads deeper context when a query targets that domain — keeping context usage under 5% for most operations.
 
 ## What's Included
 
-| Category | Skill | Output |
-|----------|-------|--------|
-| **Regulatory** | Design Controls | IEC 62304 / ISO 13485 traceability matrix (XLSX) |
-| **Regulatory** | Risk Management | ISO 14971 hazard analysis + FMEA with RPN (XLSX) |
-| **Regulatory** | FHIR Builder | Valid FHIR R4 bundles, resources, capability statements (JSON) |
-| **Regulatory** | Change Impact | Software change impact report with re-verification scope (XLSX) |
-| **Regulatory** | Design Review | PDR/CDR/FDR gate package with GO/NO-GO recommendation (XLSX + MD) |
-| **PM** | PRD Writer (SaMD) | Structured PRD template with regulatory + EHR integration sections (MD) |
-| **PM** | Interview Prep | Mock interview runner with STAR feedback (interactive) |
-| **PM** | Networking Outreach | Personalized LinkedIn/email templates (text) |
-| **Agent** | Clinical Reviewer | Neonatal SpO2 domain expert persona for clinical logic review |
+### Skills (`.claude/skills/`)
 
-## Quick Start
+| Skill | Trigger | Output |
+|-------|---------|--------|
+| PRD Writer | "general PRD", "product spec", "feature requirements" | Markdown PRD |
+| Metrics Definition | "define metrics", "KPIs", "north star metric" | Markdown metrics framework |
+| Decision Doc | "decision doc", "RFC", "ADR" | Markdown decision record |
+| Status Update | "status update", "stakeholder update" | Markdown status report |
+| Research Synthesis | "synthesize research", "interview findings" | Markdown research summary |
+| Competitive Analysis | "competitive analysis", "market analysis" | Markdown competitive report |
+| Feature Prioritization | "prioritize features", "RICE scoring" | Markdown ranked backlog |
+| Roadmap Planning | "product roadmap", "quarterly plan" | Markdown roadmap |
+| PRD Writer (SaMD) | "write PRD", "product requirements" | Markdown PRD with regulatory sections |
+| Design Controls | "design controls", "traceability matrix", "IEC 62304" | XLSX traceability matrix |
+| Risk Management | "risk management", "ISO 14971", "FMEA" | XLSX risk analysis |
+| FHIR Builder | "FHIR resource", "FHIR bundle" | JSON FHIR R4 bundle |
+| Change Impact | "change impact", "re-verification scope" | XLSX change impact report |
+| Design Review | "design review", "PDR", "CDR", "FDR" | XLSX + markdown narrative |
 
-1. **Clone this repo**
-   ```bash
-   git clone https://github.com/mc-barnes/pm-os.git
-   ```
+### Agent Persona (`.claude/skills/agents/`)
 
-2. **Copy skills you need to Claude Code**
-   ```bash
-   # Copy all SaMD regulatory skills
-   cp -r pm-os/skills/samd-regulatory/* ~/.claude/skills/
+| Agent | Use Case |
+|-------|----------|
+| Clinical Reviewer | Neonatal SpO2 domain expert — reviews clinical logic, alarm management, triage accuracy, and nurse handoff quality |
 
-   # Copy PM skills
-   cp -r pm-os/skills/samd-pm/* ~/.claude/skills/
+## Folder Structure
 
-   # Copy agent personas
-   cp -r pm-os/skills/agents/* ~/.claude/skills/agents/
-   ```
+```
+pm-os/
+├── CLAUDE.md                    # Root nav — always loaded
+├── README.md
+├── LICENSE
+│
+├── .claude/skills/              # Claude Code auto-discovers these
+│   ├── prd-writer/
+│   ├── metrics-definition/
+│   ├── decision-doc/
+│   ├── status-update/
+│   ├── research-synthesis/
+│   ├── competitive-analysis/
+│   ├── feature-prioritization/
+│   ├── roadmap-planning/
+│   ├── prd-writer-samd/
+│   ├── design-controls/         # IEC 62304 traceability (XLSX)
+│   ├── risk-management/         # ISO 14971 FMEA (XLSX)
+│   ├── fhir-builder/            # FHIR R4 bundles (JSON)
+│   ├── change-impact/           # Change impact analysis (XLSX)
+│   ├── design-review/           # PDR/CDR/FDR gate (XLSX + MD)
+│   └── agents/
+│       └── clinical-reviewer/   # Neonatal SpO2 domain expert
+│
+├── product/                     # PRDs, strategy, competitive, customers
+├── regulatory/                  # Design controls, risk, submissions, DHF
+├── clinical/                    # Intended use, usability engineering
+├── analytics/                   # Post-market surveillance, product metrics
+├── engineering/                 # Bugs, RFCs, IEC 62304 SDLC
+├── quality/                     # CAPA, complaints, audit prep
+├── team/                        # Onboarding, retros
+│
+└── examples/                    # Pre-generated artifacts
+    ├── design-controls-example.xlsx
+    ├── risk-analysis-example.xlsx
+    ├── fhir-bundle-example.json
+    ├── samd-prd-example.md
+    ├── change-impact-example.xlsx
+    └── design-review-example.xlsx
+```
 
-3. **Configure your CLAUDE.md**
-   - Copy `CLAUDE.md` to your project root
-   - Replace `[placeholders]` with your regulatory context (device class, standards, clinical domain)
-   - Claude Code will now use these skills automatically when triggered
+## Getting Started
 
-## Skills Deep Dive
+### 1. Fork this repo
 
-### SaMD Regulatory Skills (`skills/samd-regulatory/`)
+```bash
+git clone https://github.com/mc-barnes/pm-os.git
+cd pm-os
+```
 
-Each skill includes a `SKILL.md` (instructions), `references/` (standard excerpts), and `scripts/` (Python generators for XLSX/JSON output).
+### 2. Customize the root CLAUDE.md
 
-- **Design Controls** — Generates traceability matrices linking user needs → design inputs → design outputs → V&V. Follows IEC 62304 lifecycle and ISO 13485 design control requirements.
-- **Risk Management** — Produces hazard analysis worksheets, risk estimation/evaluation tables, FMEA with RPN calculations, and residual risk assessment. Follows ISO 14971.
-- **FHIR Builder** — Creates valid FHIR R4 JSON: Patient, Observation, Device, DiagnosticReport resources. Supports bundles, HL7v2-to-FHIR mapping, and US Core profiles.
-- **Change Impact** — Analyzes software changes against design controls and risk files. Determines re-verification scope and whether a new regulatory submission is needed.
-- **Design Review** — Packages PDR/CDR/FDR gate documentation with artifact checklists, requirements status, risk status, and sign-off sheets. Calculates completeness for GO/NO-GO recommendation.
+Open `CLAUDE.md` and replace the `[placeholders]` with your team's details:
+- Team roster (names, roles, Slack/GitHub handles)
+- Communication channels
+- Device context (classification, predicate, standards, clinical domain)
 
-### SaMD PM Skills (`skills/samd-pm/`)
+### 3. Start using skills
 
-- **PRD Writer** — Structured template covering intended use, regulatory context, clinical requirements, design inputs/outputs, EHR integration (HL7/FHIR), and risk analysis.
-- **Interview Prep** — Runs mock interviews with STAR-format feedback, company-specific prep, and story selection for healthcare PM roles.
-- **Networking Outreach** — Drafts LinkedIn messages and emails with templates for cold, warm, and informational interview outreach.
+Skills are auto-discovered by Claude Code from `.claude/skills/`. Just say the trigger phrase:
 
-### Agent Personas (`skills/agents/`)
+```
+> "Generate design controls for our cardiac monitor, safety class C"
+> "Write a PRD for the new alarm management feature"
+> "Run a risk analysis for the SpO2 threshold change"
+```
 
-- **Clinical Reviewer** — Neonatal pulse oximetry domain expert. Reviews clinical logic, SpO2 thresholds, alarm management, and nurse handoff quality.
+### 4. Fill in templates
 
-## Dashboard
+Each content folder has `_TEMPLATE.md` files. Copy a template, rename it, and fill in the `[brackets]`:
 
-`dashboard/pm-os.html` — A single-page reference dashboard with frameworks, skill triggers, and workflow routing. Open locally in any browser.
+```bash
+cp product/prds/_TEMPLATE.md product/prds/alarm-management-v2.md
+```
 
-## Example Outputs
+## Example Artifacts
 
-See `examples/` for sample artifacts generated by each regulatory skill using a neonatal pulse oximeter as the reference device.
+The `examples/` folder contains pre-generated artifacts using a neonatal pulse oximeter as the reference device:
 
-## Related
+| File | Skill Used | Contents |
+|------|-----------|----------|
+| `design-controls-example.xlsx` | Design Controls | Full UN → DI → DO → V&V traceability matrix |
+| `risk-analysis-example.xlsx` | Risk Management | Hazard analysis + FMEA with RPN calculations |
+| `fhir-bundle-example.json` | FHIR Builder | FHIR R4 bundle with Patient + Observation resources |
+| `samd-prd-example.md` | PRD Writer (SaMD) | Product requirements with regulatory sections |
+| `change-impact-example.xlsx` | Change Impact | Software change impact with re-verification scope |
+| `design-review-example.xlsx` | Design Review | CDR gate package with GO/NO-GO recommendation |
 
-- **[spo2-eval-pipeline](https://github.com/mc-barnes/spo2-eval-pipeline)** — End-to-end AI evaluation pipeline for neonatal SpO2 monitoring. 7-phase pipeline: synthetic data → rule engine → classifier → LLM evaluators → nurse handoffs → Streamlit dashboard.
+## Context Management
+
+SaMD Team OS uses tiered context loading to keep Claude Code efficient:
+
+| Tier | What | When Loaded | Example |
+|------|------|-------------|---------|
+| **Tier 1** | Root `CLAUDE.md` | Every session | Doc index, team roster, device context |
+| **Tier 2** | Folder `CLAUDE.md` | When Claude navigates to that folder | `regulatory/CLAUDE.md` loaded on a risk question |
+| **Tier 3** | Templates and documents | On demand when referenced | `regulatory/risk-management/_TEMPLATE.md` |
+
+A query about customers loads `product/CLAUDE.md` and relevant customer files — it never touches `analytics/`, `engineering/`, or `regulatory/`. This keeps context usage minimal and responses focused.
+
+## Built with Claude Code
+
+This repo was built entirely with [Claude Code](https://claude.com/claude-code) — from the skill authoring to the folder architecture to this README.
+
+**Companion project**: [spo2-eval-pipeline](https://github.com/mc-barnes/spo2-eval-pipeline) — an end-to-end AI evaluation pipeline for neonatal SpO2 monitoring, also built with Claude Code.
 
 ## License
 
