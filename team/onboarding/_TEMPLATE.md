@@ -1,3 +1,9 @@
+---
+type: onboarding
+status: draft
+owner: [team lead]
+last-reviewed: YYYY-MM-DD
+---
 # Onboarding: [Name] — [Role]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

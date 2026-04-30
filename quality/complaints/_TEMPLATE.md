@@ -1,3 +1,9 @@
+---
+type: complaint
+status: draft
+owner: [quality lead]
+last-reviewed: YYYY-MM-DD
+---
 # Complaint Record: [COMP-XXX]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

@@ -1,3 +1,9 @@
+---
+type: usability
+status: draft
+owner: [human factors lead]
+last-reviewed: YYYY-MM-DD
+---
 # Usability Engineering File: [Device Name]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

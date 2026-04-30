@@ -1,3 +1,9 @@
+---
+type: capa
+status: draft
+owner: [quality lead]
+last-reviewed: YYYY-MM-DD
+---
 # CAPA: [CAPA-XXX] — [Brief Description]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

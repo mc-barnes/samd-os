@@ -1,5 +1,7 @@
 # Engineering
 
+Bug investigations, RFCs, and IEC 62304 software lifecycle documentation.
+
 ## Doc index
 - bugs/    — Bug investigation reports and root cause analyses.
 - rfcs/    — Request for Comments — technical design proposals before implementation.

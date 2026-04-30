@@ -1,3 +1,9 @@
+---
+type: competitive
+status: draft
+owner: [product lead]
+last-reviewed: YYYY-MM-DD
+---
 # Competitive Analysis: [Competitor Name]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

@@ -1,5 +1,7 @@
 # Customers
 
+Per-customer folders with call notes, feedback, and relationship context.
+
 ## Doc index
 - [customer-name]/           — One folder per customer. Copy _TEMPLATE/ to create.
 - [customer-name]/CLAUDE.md  — Customer context and relationship summary.

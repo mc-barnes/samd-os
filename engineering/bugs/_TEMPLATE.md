@@ -1,3 +1,9 @@
+---
+type: bug-report
+status: draft
+owner: [engineering lead]
+last-reviewed: YYYY-MM-DD
+---
 # Bug Report: [BUG-XXX] — [Brief Description]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

@@ -1,3 +1,9 @@
+---
+type: submission
+status: draft
+owner: [regulatory lead]
+last-reviewed: YYYY-MM-DD
+---
 # Submission Package: [Device Name]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

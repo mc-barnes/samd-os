@@ -1,5 +1,7 @@
 # Analytics
 
+Post-market surveillance metrics and product performance KPIs.
+
 ## Doc index
 - post-market/             — Post-market surveillance metrics, queries, and data schemas.
   - metrics.md             — KPI definitions: complaint rate, CAPA cycle time, MDR rate.

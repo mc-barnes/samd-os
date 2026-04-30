@@ -39,12 +39,40 @@ Every markdown document should include YAML frontmatter:
 
 | Field | Required | Values | Purpose |
 |-------|----------|--------|---------|
-| type | Yes | prd, risk-record, design-controls, intended-use, capa, complaint, audit, rfc, bug-report, sdlc-phase, retro, onboarding, decision, cer, soup-register | Artifact classification |
+| type | Yes | See type reference below | Artifact classification |
 | status | Yes | draft, in-review, approved, superseded | Document lifecycle |
 | owner | Yes | @github-handle | Accountable author |
 | related | No | list of relative paths | Cross-references |
 | supersedes | No | relative path | Document this replaces |
 | last-reviewed | No | YYYY-MM-DD | Staleness tracking |
+
+#### Type reference
+
+| Type | Folder | Scope |
+|------|--------|-------|
+| prd | product/prds/ | Product requirements documents |
+| risk-record | regulatory/risk-management/ | Risk analysis narratives and FMEA records |
+| design-controls | regulatory/design-controls/ | Traceability matrix records — DI, DO, V&V narratives |
+| dhf-index | regulatory/design-history/ | DHF index document only (not the records it references) |
+| intended-use | clinical/intended-use/ | Intended use / indications for use statements |
+| usability | clinical/usability/ | Usability engineering records (IEC 62366) |
+| cer | clinical/clinical-evaluation/ | Clinical evaluation reports |
+| submission | regulatory/submissions/ | Regulatory submission packages (510(k), De Novo, PMA) |
+| capa | quality/capa/ | Corrective and preventive actions |
+| complaint | quality/complaints/ | Customer complaint records |
+| audit | quality/audits/ | Audit prep, findings, and 483 responses |
+| rfc | engineering/rfcs/ | Engineering RFCs and technical proposals |
+| bug-report | engineering/bugs/ | Bug investigations and root cause analysis |
+| sdlc-phase | engineering/sdlc/ | IEC 62304 lifecycle phase documentation |
+| soup-register | engineering/sdlc/ | SOUP component register |
+| decision | team/decisions/ | Cross-functional decision records |
+| retro | team/retros/ | Retrospective records |
+| onboarding | team/onboarding/ | Onboarding guides and orientation docs |
+| change-request | regulatory/change-control/ | Change requests and impact assessments (IEC 62304 Clause 6.2.2) |
+| competitive | product/competitive/ | Competitive landscape analyses |
+| strategy | product/strategy/ | Product strategy and vision documents |
+| call-notes | product/customers/*/calls/ | Customer call notes and meeting summaries |
+| data-schema | analytics/post-market/schemas/ | Data schema documentation for surveillance tables |
 
 ### Stale-doc handling
 When a document is replaced: set `status: superseded` in the old doc's frontmatter, add `supersedes:` in the new doc pointing to the old path. Claude ignores `status: superseded` docs unless explicitly asked.

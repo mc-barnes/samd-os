@@ -1,3 +1,9 @@
+---
+type: rfc
+status: draft
+owner: [author]
+last-reviewed: YYYY-MM-DD
+---
 # RFC: [Title]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

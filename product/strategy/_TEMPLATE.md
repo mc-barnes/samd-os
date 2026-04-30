@@ -1,3 +1,9 @@
+---
+type: strategy
+status: draft
+owner: [product lead]
+last-reviewed: YYYY-MM-DD
+---
 # Product Strategy: [Product/Initiative Name]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

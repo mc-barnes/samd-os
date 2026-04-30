@@ -13,3 +13,4 @@ build/
 .claude/todos.json
 .claude/projects/
 **/output/
+STATUS.md

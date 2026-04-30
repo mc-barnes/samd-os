@@ -1,3 +1,9 @@
+---
+type: audit
+status: draft
+owner: [quality lead]
+last-reviewed: YYYY-MM-DD
+---
 # Audit Record: [Audit ID]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

@@ -1,5 +1,7 @@
 # Regulatory
 
+Design controls, risk management, submissions, DHF, and change control per IEC 62304 / ISO 14971 / ISO 13485.
+
 ## Doc index
 - design-controls/   — Traceability matrices, user needs → design inputs → outputs → V&V. Per IEC 62304 / ISO 13485 Clause 7.3.
 - risk-management/   — Hazard analyses, FMEA, risk acceptability matrices. Per ISO 14971. Includes `risk-acceptability-matrix.md` (document-controlled, versioned).

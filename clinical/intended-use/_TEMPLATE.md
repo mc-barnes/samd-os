@@ -1,3 +1,9 @@
+---
+type: intended-use
+status: draft
+owner: [clinical affairs lead]
+last-reviewed: YYYY-MM-DD
+---
 # Intended Use Statement: [Device Name]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

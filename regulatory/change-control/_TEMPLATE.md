@@ -1,3 +1,9 @@
+---
+type: change-request
+status: draft
+owner: [engineering lead]
+last-reviewed: YYYY-MM-DD
+---
 # Change Request: [CR-XXX] — [Brief Description]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

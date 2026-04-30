@@ -1,10 +1,14 @@
+---
+type: prd
+status: approved
+owner: [product lead]
+last-reviewed: 2026-04-28
+# This is a reference example — not a controlled document.
+---
 # PRD: Neonatal SpO2 Overnight Triage System
 **Author**: [Your Name]
 **Date**: 2026-04-28
-**Status**: Draft
 **Document Version**: 1.0
-
----
 
 ## 1. Intended Use / Indications for Use
 - **Intended use statement**: Automated overnight SpO2 monitoring triage system that classifies pulse oximetry traces into clinical urgency tiers for NICU nursing staff.

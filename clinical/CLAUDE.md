@@ -1,5 +1,7 @@
 # Clinical
 
+Intended use statements, usability engineering, and clinical evaluation reports.
+
 ## Doc index
 - intended-use/   — Intended use statements, indications for use, and contraindications.
 - usability/      — Usability engineering files per IEC 62366. Use specifications, formative/summative studies.

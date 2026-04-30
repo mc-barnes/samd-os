@@ -1,5 +1,7 @@
 # Product
 
+Product requirements, strategy, competitive intelligence, and customer relationships.
+
 ## Doc index
 - prds/              — Product requirements documents. One file per feature or product.
 - customers/         — Per-customer folders with call notes, feedback, and relationship context.

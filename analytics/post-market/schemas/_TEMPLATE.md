@@ -1,3 +1,9 @@
+---
+type: data-schema
+status: draft
+owner: [analytics lead]
+last-reviewed: YYYY-MM-DD
+---
 # Data Schema: [Table/Entity Name]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

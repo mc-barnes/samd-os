@@ -1,5 +1,7 @@
 # Team
 
+Onboarding, retrospectives, cross-functional decisions, and sources of truth.
+
 ## Doc index
 - onboarding/   — New team member onboarding checklists and role-specific guides.
 - retros/       — Sprint and project retrospective records.

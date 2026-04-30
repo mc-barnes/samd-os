@@ -1,3 +1,9 @@
+---
+type: retro
+status: draft
+owner: [facilitator]
+last-reviewed: YYYY-MM-DD
+---
 # Retrospective: [Sprint/Project Name]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

@@ -1,5 +1,7 @@
 # Quality
 
+CAPA records, customer complaints, and audit findings per ISO 13485.
+
 ## Doc index
 - capa/         — Corrective and Preventive Action records. Per ISO 13485 Clause 8.5.2/8.5.3.
 - complaints/   — Customer complaint records and trend analyses. Per ISO 13485 Clause 8.2.2.

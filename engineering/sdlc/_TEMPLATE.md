@@ -1,3 +1,9 @@
+---
+type: sdlc-phase
+status: draft
+owner: [engineering lead]
+last-reviewed: YYYY-MM-DD
+---
 # SDLC Phase Record: [Phase Name]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.

@@ -1,3 +1,9 @@
+---
+type: call-notes
+status: draft
+owner: [account owner]
+last-reviewed: YYYY-MM-DD
+---
 # Call Notes — [Customer Name]
 
 > Replace all [brackets] with your content. Delete this instruction block when done.
