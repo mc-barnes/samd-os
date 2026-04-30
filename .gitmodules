@@ -1,0 +1,3 @@
+[submodule ".claude/skills/agents"]
+	path = .claude/skills/agents
+	url = https://github.com/mc-barnes/samd-agents.git
