@@ -1,3 +1,10 @@
+---
+name: prd-writer-samd
+description: >
+  Generate a structured PRD for a software medical device with regulatory sections.
+  Triggers: "write PRD", "product requirements", "SaMD PRD", "medical device PRD".
+---
+
 # Skill: PRD Writer — Software Medical Device (SaMD)
 
 ## Purpose
