@@ -1,8 +1,8 @@
 # SaMD Team OS
 
-For teams shipping regulated software without a 30-person QMS organization. Five reviewer agents catch findings before auditors do. Standards editions pinned (IEC 62304:2006+A1:2015, ISO 14971:2019, IEC 81001-5-1:2021). Outputs are explicit drafts — your eQMS remains the system of record.
+For teams shipping regulated software without a 30-person QMS organization. Five reviewer agents catch findings before auditors do. Three reverse-engineering skills reconstruct draft regulatory artifacts from codebases that shipped before documentation caught up. Standards editions pinned (IEC 62304:2006+A1:2015, ISO 14971:2019, IEC 81001-5-1:2021). Outputs are explicit drafts — your eQMS remains the system of record.
 
-*Ship regulated software at startup speed.*
+*Ship regulated software at startup speed — whether you're building docs alongside code or catching up after launch.*
 
 ## Scope and Limitations
 
@@ -52,6 +52,20 @@ Five specialist reviewers that operate from a defined regulatory or clinical per
 | Design Review | "design review", "PDR", "CDR", "FDR" | XLSX + markdown narrative |
 | FHIR Builder | "FHIR resource", "FHIR bundle" | JSON FHIR R4 bundle |
 
+#### Gap Analysis — Retrospective Compliance
+
+Three reverse-engineering skills for teams that built first and need to document for submission. Each skill scans an existing codebase and produces two outputs: a draft artifact (XLSX) populated from code analysis, and a companion gap report (markdown) documenting exactly what's missing and who needs to fill it in. Rationale, clinical evidence, and dispositioning fields are never auto-populated — those require human accountability.
+
+| Skill | Trigger | What It Scans | Output |
+|-------|---------|---------------|--------|
+| Code → SOUP Register | "SOUP register from code" | Dependency manifests (Python, JS/TS, Go, Java) | IEC 62304 §5.3.3 SOUP register XLSX + gap report |
+| Code → Design Inputs | "design inputs from code" | API boundaries, config surfaces, clinical thresholds, integration points | Design input traceability matrix XLSX + gap report |
+| Code → Hazard Candidates | "hazard candidates from code" | Alarm logic, threshold calculations, EHR write paths, fail-safe paths | Hazard candidate XLSX + gap report |
+
+Every hazard candidate is marked `CANDIDATE` — these are proposals requiring human evaluation, not a completed hazard analysis. Coverage disclaimers list which code paths were analyzed and which were excluded (test/, terraform/, k8s/). Domain customization is supported via keyword files and heuristic overrides — neonatal and cardiac configs are included, and you can add your own.
+
+For the full workflow (scope authorization, gap report cadence, auditor framing), see [Gap Analysis Guide](docs/gap-analysis-guide.md).
+
 <details>
 <summary>Plus 8 general-purpose PM skills</summary>
 
@@ -81,6 +95,8 @@ The `examples/` folder contains pre-generated artifacts using a neonatal pulse o
 | `change-impact-example.xlsx` | Change Impact | Software change impact with re-verification scope |
 | `design-review-example.xlsx` | Design Review | CDR gate package with GO/NO-GO recommendation |
 
+The `examples/test-fixtures/` folder also includes 12 gap analysis fixtures (4 per skill) with deliberately varied scenarios — GPL license detection, multi-language repos, PRD-to-code mismatches, cardiac domain overrides, and graceful empty-repo handling. Each fixture has a README documenting expected output.
+
 **What makes a SaMD PRD different?** The [example PRD](examples/samd-prd-example.md) includes sections you won't find in a generic product spec: intended use / indications for use (§1), regulatory context with device classification and IEC 62304 software class (§3), clinical requirements with validation plan and performance targets (§4), design inputs traceable by requirement ID (§5), EHR integration with HL7/FHIR specs (§7), and a preliminary risk analysis per ISO 14971 (§8).
 
 ## Architecture
@@ -107,7 +123,7 @@ graph TD
     QUAL --> Q_NAV["CLAUDE.md<br/><i>CAPA, complaints, audits</i>"]
     TEAM --> T_NAV["CLAUDE.md<br/><i>Onboarding, retros</i>"]
 
-    SKILLS --> S1["14 skills"]
+    SKILLS --> S1["17 skills"]
     SKILLS --> S2["5 agent personas"]
 
     style ROOT fill:#1F4E79,color:#fff
@@ -132,7 +148,7 @@ A query about customers loads `product/CLAUDE.md` and relevant customer files �
 
 Ready for small-team pilots. Not yet validated for enterprise rollout — and that's intentional. Validation status: 20/20 fixture format pass (dry-run); live agent evaluation pending — see [eval results](docs/eval-results-2026-04-30.md). Start with one PM, one product, one sprint. Evaluate agent findings against your RA/QA team's own assessments. If the findings are useful, expand.
 
-For adoption planning, see [Adoption Guide](docs/adoption-guide.md). For validation details and QMS integration, see [Responsible Use](docs/responsible-use.md). For audit preparation, see [Auditor Briefing](docs/auditor-briefing.md).
+For adoption planning, see [Adoption Guide](docs/adoption-guide.md). For validation details and QMS integration, see [Responsible Use](docs/responsible-use.md). For audit preparation, see [Auditor Briefing](docs/auditor-briefing.md). For retrospective compliance workflows, see [Gap Analysis Guide](docs/gap-analysis-guide.md).
 
 ## Cost
 
@@ -173,6 +189,8 @@ Skills are auto-discovered by Claude Code from `.claude/skills/`. Just say the t
 > "Generate design controls for our cardiac monitor, safety class C"
 > "Write a PRD for the new alarm management feature"
 > "Run a risk analysis for the SpO2 threshold change"
+> "Generate a SOUP register from my codebase at ../my-device"
+> "Find hazard candidates in the alarm logic module"
 ```
 
 ### 4. Fill in templates
@@ -218,6 +236,11 @@ samd-os/
 │   ├── fhir-builder/            # FHIR R4 bundles (JSON)
 │   ├── change-impact/           # Change impact analysis (XLSX)
 │   ├── design-review/           # PDR/CDR/FDR gate (XLSX + MD)
+│   ├── code-to-soup-register/   # Reverse-engineer SOUP from deps
+│   ├── code-to-design-inputs/   # Reverse-engineer DIs from code
+│   │   └── references/          # Domain keywords (neonatal, cardiac)
+│   ├── code-to-hazard-candidates/ # Reverse-engineer hazards from code
+│   │   └── references/          # Domain heuristic overrides
 │   └── agents/
 │       ├── regulatory-reviewer/ # FDA SaMD submission reviewer
 │       ├── qa-reviewer/         # ISO 13485 QMS auditor
@@ -226,7 +249,7 @@ samd-os/
 │       └── clinical-reviewer/   # Domain expert (example: neonatal SpO2)
 │
 ├── product/                     # PRDs, strategy, competitive, customers
-├── regulatory/                  # Design controls, risk, submissions, DHF
+├── regulatory/                  # Design controls, risk, submissions, DHF, gap analysis
 ├── clinical/                    # Intended use, usability, clinical evaluation
 ├── analytics/                   # Post-market surveillance, product metrics
 ├── engineering/                 # Bugs, RFCs, IEC 62304 SDLC
@@ -242,7 +265,7 @@ samd-os/
     ├── samd-prd-example.md
     ├── change-impact-example.xlsx
     ├── design-review-example.xlsx
-    └── test-fixtures/              # 20 deliberately broken artifacts for agent validation
+    └── test-fixtures/              # 20 agent review fixtures + 12 gap analysis fixtures
 ```
 
 </details>
