@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaMD-os: Getting Started in 30 Minutes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0b1120;
+    --ink: #1e293b;
+    --gray: #64748b;
+    --border: #e2e8f0;
+    --bg-subtle: #f8fafc;
+    --white: #ffffff;
+    --blue: #3b82f6;
+    --blue-bg: #eff6ff;
+    --green: #16a34a;
+    --green-bg: #f0fdf4;
+    --amber: #d97706;
+    --amber-bg: #fffbeb;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* --- HEADER --- */
+  .page-header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-header .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 32px;
+    color: var(--navy);
+  }
+  .page-header .logo svg { width: 18px; height: 18px; }
+  .page-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  .page-header .subtitle {
+    font-size: 17px;
+    color: var(--gray);
+  }
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--gray);
+  }
+  .meta-row span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* --- TABLE OF CONTENTS --- */
+  .toc {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 48px;
+  }
+  .toc h3 {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+    margin-bottom: 16px;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .toc li {
+    counter-increment: toc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--gray);
+    margin-right: 12px;
+    min-width: 20px;
+  }
+  .toc li .toc-title { flex: 1; color: var(--ink); font-weight: 500; }
+  .toc li .toc-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  /* --- SECTIONS --- */
+  .section {
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-of-type { border-bottom: none; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--gray);
+    min-width: 24px;
+  }
+  .section h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+  }
+  .section-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--blue);
+    margin-left: auto;
+  }
+
+  .section p {
+    color: var(--gray);
+    margin-bottom: 16px;
+    margin-left: 36px;
+  }
+
+  /* --- CODE --- */
+  .code-block {
+    background: var(--navy);
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    padding: 20px 24px;
+    border-radius: 8px;
+    margin: 16px 0 16px 36px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code-block .c { color: #64748b; }
+  .code-block .k { color: #93c5fd; }
+  .code-block .s { color: #86efac; }
+  .code-block .p { color: #64748b; user-select: none; }
+
+  /* --- CALLOUT --- */
+  .callout {
+    margin: 16px 0 16px 36px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 14px;
+  }
+  .callout-label {
+    background: var(--navy);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 16px;
+  }
+  .callout.warning .callout-label {
+    background: var(--amber);
+  }
+  .callout-body {
+    padding: 14px 16px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* --- LIST --- */
+  .checklist {
+    list-style: none;
+    margin: 16px 0 16px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .checklist li::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* --- FOLDER TREE --- */
+  .tree {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.9;
+    margin: 16px 0 16px 36px;
+    color: var(--gray);
+  }
+  .tree .f { color: var(--ink); font-weight: 500; }
+
+  /* --- TABLE --- */
+  .data-table {
+    width: calc(100% - 36px);
+    margin: 16px 0 16px 36px;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .data-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--navy);
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--gray);
+  }
+  .data-table td:first-child {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* --- BADGE --- */
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .badge.green { background: var(--green-bg); color: var(--green); }
+  .badge.amber { background: var(--amber-bg); color: var(--amber); }
+  .badge.red { background: var(--red-bg); color: var(--red); }
+
+  /* --- INLINE CODE --- */
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: var(--bg-subtle);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  /* --- TAG --- */
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--ink);
+    margin: 2px 4px 2px 0;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0 12px 36px;
+  }
+
+  /* --- FOOTER --- */
+  .page-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--gray);
+  }
+  .page-footer .logo-sm {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--navy);
+  }
+  .page-footer .logo-sm svg { width: 14px; height: 14px; }
+  .page-footer .standards {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="#0b1120" stroke-width="0.75" fill="none" opacity="0.35"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.5"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.4" transform="rotate(72 12 12)"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.58" transform="rotate(144 12 12)"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.45" transform="rotate(216 12 12)"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.52" transform="rotate(288 12 12)"/></svg>
+      SaMD-os
+    </div>
+    <h1>Getting Started in 30 Minutes</h1>
+    <p class="subtitle">
+      From clone to first agent review. No dependencies, no build step.
+    </p>
+    <div class="meta-row">
+      <span>v1.0</span>
+      <span>30 min</span>
+      <span>6 steps</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h3>Contents</h3>
+    <ol>
+      <li><span class="toc-title">What is SaMD-os</span><span class="toc-time">2 min</span></li>
+      <li><span class="toc-title">Clone & Customize</span><span class="toc-time">3 min</span></li>
+      <li><span class="toc-title">Explore the Structure</span><span class="toc-time">3 min</span></li>
+      <li><span class="toc-title">Draft Your First PRD</span><span class="toc-time">10 min</span></li>
+      <li><span class="toc-title">Run an Agent Review</span><span class="toc-time">8 min</span></li>
+      <li><span class="toc-title">What's Next</span><span class="toc-time">4 min</span></li>
+    </ol>
+  </nav>
+
+  <!-- STEP 1 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>What is SaMD-os</h2>
+      <span class="section-time">2 min</span>
+    </div>
+    <p>
+      SaMD-os is a structured working environment for teams building software
+      medical devices. It sits upstream of your eQMS: a draft layer where you
+      author regulatory documents and get AI pre-review feedback.
+    </p>
+    <div class="callout info">
+      <div class="callout-label">Key concept</div>
+      <div class="callout-body">Skills generate documents. Agents review them. No agent creates controlled artifacts. They only find what's missing.</div>
+    </div>
+    <p>
+      It doesn't replace your eQMS. Documents only become controlled
+      when you export them after human review.
+    </p>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Clone & Customize</h2>
+      <span class="section-time">3 min</span>
+    </div>
+    <p>No npm. No pip. No Docker. Clone and open in Claude Code.</p>
+    <div class="code-block">
+<span class="c"># Clone the repo</span>
+<span class="p">$ </span><span class="k">git clone</span> <span class="s">https://github.com/mc-barnes/samd-os.git</span>
+<span class="p">$ </span><span class="k">cd</span> samd-os
+
+<span class="c"># Open in Claude Code</span>
+<span class="p">$ </span><span class="k">claude</span>
+
+<span class="c"># Verify setup</span>
+<span class="p">$ </span><span class="k">./scripts/status.sh</span>
+    </div>
+    <p>Open <code>CLAUDE.md</code> and fill in:</p>
+    <ul class="checklist">
+      <li><strong>Team roster:</strong> names, roles, Slack/GitHub handles</li>
+      <li><strong>Device context:</strong> classification, predicate, clinical domain</li>
+      <li><strong>Standards:</strong> confirm or adjust the pinned editions</li>
+    </ul>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Explore the Structure</h2>
+      <span class="section-time">3 min</span>
+    </div>
+    <p>
+      Each folder maps to a regulatory function. Each has its own
+      <code>CLAUDE.md</code> that loads context on demand.
+    </p>
+    <div class="tree">
+      <span class="f">product/</span><span>PRDs, strategy, competitive, customers</span>
+      <span class="f">regulatory/</span><span>Design controls, risk, submissions, DHF</span>
+      <span class="f">clinical/</span><span>Intended use, usability, clinical evaluation</span>
+      <span class="f">quality/</span><span>CAPA, complaints, audit prep</span>
+      <span class="f">engineering/</span><span>Bugs, RFCs, IEC 62304 SDLC, SOUP</span>
+      <span class="f">analytics/</span><span>Post-market surveillance, metrics</span>
+      <span class="f">team/</span><span>Onboarding, retros, decisions</span>
+      <span class="f">.claude/skills/</span><span>17 skills + 5 agent personas</span>
+      <span class="f">examples/</span><span>Pre-generated reference artifacts</span>
+    </div>
+  </section>
+
+  <!-- STEP 4 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Draft Your First PRD</h2>
+      <span class="section-time">10 min</span>
+    </div>
+    <p>
+      Use the SaMD PRD skill to generate a regulatory-ready product requirements
+      document with intended use, clinical requirements, design inputs, risk
+      sections, and EHR integration.
+    </p>
+    <div class="code-block">
+<span class="c"># Say this in Claude Code:</span>
+<span class="s">"Write a SaMD PRD for a neonatal SpO2 overnight triage system"</span>
+
+<span class="c"># Or use the trigger directly:</span>
+<span class="p">$ </span><span class="k">/prd-writer-samd</span>
+    </div>
+    <p>
+      Compare your output against <code>examples/samd-prd-example.md</code>.
+    </p>
+    <p style="font-size: 13px; color: var(--gray); margin-bottom: 8px; margin-left: 36px;">All SaMD skills:</p>
+    <div class="tag-row">
+      <span class="tag">prd-writer-samd</span>
+      <span class="tag">design-controls</span>
+      <span class="tag">risk-management</span>
+      <span class="tag">change-impact</span>
+      <span class="tag">design-review</span>
+      <span class="tag">fhir-builder</span>
+    </div>
+  </section>
+
+  <!-- STEP 5 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Run an Agent Review</h2>
+      <span class="section-time">8 min</span>
+    </div>
+    <p>
+      Run a reviewer on your draft. Each agent returns structured findings
+      with severity, standards citations, and a verdict.
+    </p>
+    <div class="code-block">
+<span class="c"># Single reviewer:</span>
+<span class="s">"Run regulatory-reviewer on product/prds/spo2-triage-v1.md"</span>
+
+<span class="c"># Full panel (all 5 in parallel):</span>
+<span class="s">"Run review-panel on product/prds/spo2-triage-v1.md"</span>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr><th>Agent</th><th>Focus</th><th>Example Finding</th><th>Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Regulatory</td>
+          <td>IFU, traceability</td>
+          <td>Intended use too broad</td>
+          <td><span class="badge amber">NEEDS REVISION</span></td>
+        </tr>
+        <tr>
+          <td>Safety</td>
+          <td>Risk controls, AFAP</td>
+          <td>No AFAP justification</td>
+          <td><span class="badge green">ACCEPTABLE</span></td>
+        </tr>
+        <tr>
+          <td>QA</td>
+          <td>CAPA, audits</td>
+          <td>Missing decision records</td>
+          <td><span class="badge green">ACCEPTABLE</span></td>
+        </tr>
+        <tr>
+          <td>Cybersecurity</td>
+          <td>SBOM, 524B</td>
+          <td>47 entries no versions</td>
+          <td><span class="badge red">CONCERN</span></td>
+        </tr>
+        <tr>
+          <td>Clinical</td>
+          <td>Algorithms, alarms</td>
+          <td>Threshold not cited</td>
+          <td><span class="badge green">ACCEPTABLE</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout warning">
+      <div class="callout-label">Important</div>
+      <div class="callout-body">Most conservative wins. In a panel review, one FAIL blocks the panel. Cost: ~$0.50 per full panel review.</div>
+    </div>
+  </section>
+
+  <!-- STEP 6 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>What's Next</h2>
+      <span class="section-time">4 min</span>
+    </div>
+    <p>
+      You've completed the core loop: <strong>draft &rarr; review &rarr; fix &rarr; export</strong>.
+    </p>
+    <p style="font-size: 13px; color: var(--gray); margin-bottom: 8px; margin-left: 36px; font-weight: 500;">Recommended first week:</p>
+    <ul class="checklist">
+      <li><strong>Day 2:</strong> Draft a real PRD, run review panel, compare findings to your RA's feedback</li>
+      <li><strong>Day 3:</strong> Try reverse-engineer skills on your codebase</li>
+      <li><strong>Day 4:</strong> Decide to adopt, customize, or defer</li>
+    </ul>
+    <p style="font-size: 13px; color: var(--gray); margin-top: 20px; margin-bottom: 8px; margin-left: 36px;">Reverse-engineering skills:</p>
+    <div class="tag-row">
+      <span class="tag">code-to-soup-register</span>
+      <span class="tag">code-to-design-inputs</span>
+      <span class="tag">code-to-hazard-candidates</span>
+    </div>
+    <p style="font-size: 13px; color: var(--gray); margin-top: 20px; margin-bottom: 8px; margin-left: 36px;">Further reading:</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>File</th><th>What you'll find</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>examples/</code></td>
+          <td>Full reference artifacts (design controls XLSX, risk analysis XLSX, FHIR bundle JSON, SaMD PRD). Use these to benchmark your own outputs.</td>
+        </tr>
+        <tr>
+          <td><code>docs/adoption-guide.md</code></td>
+          <td>How to roll out to your team: who runs what, where it fits alongside your eQMS, cost breakdown ($5–$15/month typical), and a readiness checklist.</td>
+        </tr>
+        <tr>
+          <td><code>docs/responsible-use.md</code></td>
+          <td>What agents can and can't do, known limitations (frozen standards knowledge, no institutional memory, citation accuracy), and validation evidence.</td>
+        </tr>
+        <tr>
+          <td><code>docs/auditor-briefing.md</code></td>
+          <td>How to explain AI-assisted drafting to auditors. Covers the draft/controlled boundary, human accountability, and what to include in your QMS documentation.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="page-footer">
+    <div class="logo-sm">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="#0b1120" stroke-width="0.75" fill="none" opacity="0.35"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.5"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.4" transform="rotate(72 12 12)"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.58" transform="rotate(144 12 12)"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.45" transform="rotate(216 12 12)"/><polygon points="8.9,3.5 12,9.5 14.9,11.1 19.1,6.5" fill="#0b1120" opacity="0.52" transform="rotate(288 12 12)"/></svg>
+      SaMD-os
+    </div>
+    <div class="standards">
+      IEC 62304 &middot; ISO 14971 &middot; ISO 13485 &middot; IEC 62366-1
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

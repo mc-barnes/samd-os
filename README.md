@@ -6,6 +6,8 @@ Three reverse-engineering skills reconstruct draft regulatory artifacts from cod
 
 *Ship regulated software at startup speed — whether you're building docs alongside code or catching up after launch.*
 
+**[Getting Started in 30 Minutes →](https://mc-barnes.github.io/samd-os/getting-started.html)** — Clone to first agent review, no dependencies.
+
 ## Scope and Limitations
 
 Skill-generated XLSX, JSON, and Markdown files are **uncontrolled drafts** — no electronic signatures, no Part 11 / Annex 11 compliance. Final approved records belong in your eQMS of record. This repo is a **working environment**, not a quality system.
