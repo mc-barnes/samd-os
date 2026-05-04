@@ -1,0 +1,147 @@
+# Retraining Axis — AI/ML SaMD Readiness Assessor Heuristics
+# 4 heuristics: RT-CRIT-002, RT-MAJ-001, RT-MAJ-002, RT-MIN-001
+
+---
+- id: RT-CRIT-002
+  name: No retraining trigger criteria defined
+  description: >
+    For a model declared as batch-retrained or continuous, no criteria exist that
+    define when retraining is initiated.
+  primary_axis: retraining
+  cross_ref_axes: [update-monitoring]
+  base_severity: critical
+  artifact_types: [design-controls]
+  match_logic:
+    type: keyword_absence
+    artifact: design-controls
+    search_scope: design_inputs_requirements
+    required_keywords:
+      - "retrain"
+      - "re-train"
+      - "update trigger"
+      - "retraining criteria"
+      - "model update"
+  false_positive_guards:
+    - condition: { field: "learning_type", value: "locked" }
+      rationale: "Locked models do not retrain; trigger criteria are not applicable"
+  intake_conditions:
+    - { field: "learning_type", operator: "in", values: ["batch-retrained", "continuous"] }
+  severity_promotion:
+    eligible: false
+  primary_citation: "FDA PCCP Guidance §VII.B.2 — 'Re-training... including triggers for re-training'"
+  secondary_citations:
+    - "IMDRF N67 §5.3 — Change triggers"
+  remediation: >
+    Define retraining trigger criteria: performance degradation thresholds, data
+    drift metrics, temporal cadence, or clinical event triggers that initiate a
+    retraining cycle.
+
+---
+- id: RT-MAJ-001
+  name: No model versioning protocol
+  description: >
+    No design input defines a model versioning protocol for tracking model
+    iterations, comparing performance across versions, or maintaining lineage.
+  primary_axis: retraining
+  cross_ref_axes: [update-monitoring]
+  base_severity: major
+  artifact_types: [design-controls]
+  match_logic:
+    type: keyword_absence
+    artifact: design-controls
+    search_scope: design_inputs_requirements
+    required_keywords:
+      - "model version"
+      - "versioning"
+      - "model registry"
+      - "version control"
+      - "model lineage"
+  false_positive_guards:
+    - condition: { field: "learning_type", value: "locked" }
+      rationale: "Locked models do not iterate; versioning protocol is not applicable"
+  intake_conditions:
+    - { field: "learning_type", operator: "in", values: ["batch-retrained", "continuous"] }
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA PCCP Guidance §VII.B.2 — 'Version control for model updates'"
+  secondary_citations: []
+  remediation: >
+    Define model versioning protocol: naming convention, registry, comparison
+    testing requirements, and lineage tracking.
+
+---
+- id: RT-MAJ-002
+  name: Retraining defined but no rollback procedure
+  description: >
+    Design inputs describe a retraining or model update process but no
+    corresponding rollback or revert procedure is defined.
+  primary_axis: retraining
+  cross_ref_axes: [update-monitoring]
+  base_severity: major
+  artifact_types: [design-controls]
+  match_logic:
+    type: cross_reference_missing
+    source:
+      artifact: design-controls
+      search_scope: design_inputs_requirements
+      keywords:
+        - "retrain"
+        - "re-train"
+        - "model update"
+    target:
+      artifact: design-controls
+      search_scope: design_inputs_requirements
+      keywords:
+        - "rollback"
+        - "revert"
+        - "fallback"
+        - "previous version"
+    link_description: "Retraining protocol mentioned but no rollback/revert procedure defined"
+  false_positive_guards:
+    - condition: { field: "learning_type", value: "locked" }
+      rationale: "Locked models do not retrain; rollback procedure is not applicable"
+  intake_conditions:
+    - { field: "learning_type", operator: "in", values: ["batch-retrained", "continuous"] }
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA PCCP Guidance §VII.B.2 — 'Procedures for model roll-back'"
+  secondary_citations: []
+  remediation: >
+    Define rollback procedure: trigger criteria for rollback, previous version
+    retention policy, re-validation requirements after rollback.
+
+---
+- id: RT-MIN-001
+  name: No automated pipeline validation
+  description: >
+    For a model with a retraining pathway, no design input describes automated
+    validation of the retraining pipeline (data ingestion checks, training
+    reproducibility, output acceptance criteria).
+  primary_axis: retraining
+  cross_ref_axes: []
+  base_severity: minor
+  artifact_types: [design-controls]
+  match_logic:
+    type: keyword_absence
+    artifact: design-controls
+    search_scope: design_inputs_requirements
+    required_keywords:
+      - "pipeline validation"
+      - "automated validation"
+      - "CI/CD"
+      - "pipeline testing"
+      - "automated test"
+  false_positive_guards:
+    - condition: { field: "learning_type", value: "locked" }
+      rationale: "Locked models do not retrain; pipeline validation is not applicable"
+  intake_conditions:
+    - { field: "learning_type", operator: "in", values: ["batch-retrained", "continuous"] }
+  severity_promotion:
+    eligible: false
+  primary_citation: "FDA PCCP Guidance §VII.B.2 — 'Automated procedures for re-training'"
+  secondary_citations: []
+  remediation: >
+    Document automated pipeline validation: data ingestion checks, training
+    reproducibility, output comparison against acceptance criteria.

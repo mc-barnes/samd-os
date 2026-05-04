@@ -1,0 +1,146 @@
+# Update Monitoring Axis — AI/ML SaMD Readiness Assessor Heuristics
+# 4 heuristics: UM-MAJ-001, UM-MAJ-002, UM-MAJ-003, UM-MIN-001
+
+---
+- id: UM-MAJ-001
+  name: No post-deployment monitoring plan
+  description: >
+    No design input addresses post-deployment monitoring of the AI/ML model,
+    leaving field performance untracked after release.
+  primary_axis: update-monitoring
+  cross_ref_axes: []
+  base_severity: major
+  artifact_types: [design-controls]
+  match_logic:
+    type: keyword_absence
+    artifact: design-controls
+    search_scope: design_inputs_requirements
+    required_keywords:
+      - "post-deployment"
+      - "monitoring plan"
+      - "post-market"
+      - "surveillance"
+      - "field performance"
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA PCCP Guidance §VII.B.4 — 'Post-deployment monitoring'"
+  secondary_citations: []
+  remediation: >
+    Add design input for post-deployment monitoring: metrics to track,
+    collection frequency, alert thresholds, and responsible roles.
+
+---
+- id: UM-MAJ-002
+  name: No drift detection mechanism
+  description: >
+    No design control or risk control addresses detection of data or concept
+    drift in the deployed model.
+  primary_axis: update-monitoring
+  cross_ref_axes: [performance-evaluation]
+  base_severity: major
+  artifact_types: [design-controls, risk-management]
+  match_logic:
+    - type: keyword_absence
+      artifact: design-controls
+      search_scope: design_inputs_requirements
+      required_keywords:
+        - "drift"
+        - "distribution shift"
+        - "concept drift"
+        - "data drift"
+        - "covariate shift"
+    - type: keyword_absence
+      artifact: risk-management
+      search_scope: fmea_failure_modes
+      required_keywords:
+        - "drift"
+        - "distribution shift"
+        - "concept drift"
+        - "data drift"
+        - "covariate shift"
+  false_positive_guards:
+    - condition: { field: "learning_type", value: "locked" }
+      rationale: "Locked models with no update path may legitimately defer drift to periodic manual review, though this is a minor gap"
+  intake_conditions: []
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA PCCP Guidance §VII.B.4 — 'Update procedures... monitoring for performance degradation'"
+  secondary_citations:
+    - "IMDRF N67 §6.4 — Monitoring"
+  remediation: >
+    Define drift detection approach: statistical tests on input distributions,
+    performance metric monitoring with alert thresholds, or periodic
+    re-validation triggers.
+
+---
+- id: UM-MAJ-003
+  name: Monitoring defined but no re-validation trigger linked
+  description: >
+    A monitoring or post-deployment plan exists in design inputs but no
+    corresponding V&V record defines re-validation triggers for when monitoring
+    detects performance degradation.
+  primary_axis: update-monitoring
+  cross_ref_axes: [performance-evaluation]
+  base_severity: major
+  artifact_types: [design-controls]
+  match_logic:
+    type: cross_reference_missing
+    source:
+      artifact: design-controls
+      search_scope: design_inputs_requirements
+      keywords:
+        - "monitoring"
+        - "post-deployment"
+        - "surveillance"
+    target:
+      artifact: design-controls
+      search_scope: verification_validation_combined
+      keywords:
+        - "re-validation"
+        - "revalidation"
+        - "re-test"
+        - "retest"
+        - "periodic validation"
+    link_description: "Monitoring plan exists but no re-validation trigger defined for when monitoring detects degradation"
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA PCCP Guidance §VII.B.4 — 'Triggers for re-evaluation'"
+  secondary_citations: []
+  remediation: >
+    Link monitoring thresholds to re-validation triggers: define which metric
+    breaches initiate re-validation, specify the re-validation protocol, and
+    document acceptance criteria.
+
+---
+- id: UM-MIN-001
+  name: No user notification protocol for model updates
+  description: >
+    No versioned notification or communication pattern for informing users of
+    model updates, leaving clinicians unaware of changes to decision-support
+    behavior.
+  primary_axis: update-monitoring
+  cross_ref_axes: []
+  base_severity: minor
+  artifact_types: [design-controls]
+  match_logic:
+    type: pattern_absence
+    artifact: design-controls
+    search_scope: design_inputs_requirements
+    pattern: "notif|user communication|change\\s+log|release\\s+note|update\\s+notice"
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA PCCP Guidance §VII.B.4 — 'Update procedures, including user notification'"
+  secondary_citations: []
+  remediation: >
+    Define user notification protocol: notification trigger, communication
+    channel, content template, and timing requirements for model updates.

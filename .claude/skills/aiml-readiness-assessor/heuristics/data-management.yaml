@@ -1,0 +1,148 @@
+# Data Management Axis — AI/ML SaMD Readiness Assessor Heuristics
+# 4 heuristics: DM-CRIT-001, DM-MAJ-001, DM-MAJ-002, DM-MIN-001
+
+---
+- id: DM-CRIT-001
+  name: Training data sources unspecified
+  description: >
+    No design input specifies the source, scope, or characteristics of training
+    data used by the AI/ML model.
+  primary_axis: data-management
+  cross_ref_axes: []
+  base_severity: critical
+  artifact_types: [design-controls]
+  match_logic:
+    type: keyword_absence
+    artifact: design-controls
+    search_scope: design_inputs_requirements
+    required_keywords:
+      - "training data"
+      - "dataset"
+      - "data source"
+      - "training set"
+  false_positive_guards:
+    - condition: { field: "decision_autonomy", value: "output-non-clinical" }
+      rationale: "Non-clinical output may use pre-trained models without team-specific training data"
+  intake_conditions: []
+  severity_promotion:
+    eligible: false
+  primary_citation: "FDA PCCP Guidance §VII.B.1 — 'Description of data management practices, including... data collection'"
+  secondary_citations:
+    - "IMDRF N67 §6.1 — Data management for MLMD"
+  remediation: >
+    Add design input specifying: training data source(s), inclusion/exclusion
+    criteria, dataset size, collection timeframe, and annotation methodology.
+
+---
+- id: DM-MAJ-001
+  name: No representativeness analysis
+  description: >
+    Training data referenced in design inputs but no corresponding V&V record
+    documents a representativeness analysis comparing training data demographics
+    to the target population.
+  primary_axis: data-management
+  cross_ref_axes: [performance-evaluation]
+  base_severity: major
+  artifact_types: [design-controls]
+  match_logic:
+    type: cross_reference_missing
+    source:
+      artifact: design-controls
+      search_scope: design_inputs_requirements
+      keywords:
+        - "training data"
+        - "dataset"
+    target:
+      artifact: design-controls
+      search_scope: verification_validation_combined
+      keywords:
+        - "representativeness"
+        - "demographic"
+        - "population distribution"
+        - "data representativeness"
+    link_description: "Training data mentioned in design inputs but representativeness not verified"
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA PCCP Guidance §VII.B.1 — 'Representativeness of data'"
+  secondary_citations: []
+  remediation: >
+    Document representativeness analysis: target population demographics,
+    training data demographics, gap analysis, and mitigation strategy.
+
+---
+- id: DM-MAJ-002
+  name: Training data referenced but not validated
+  description: >
+    Design inputs reference training data but no V&V record validates data
+    quality, integrity, or annotation accuracy.
+  primary_axis: data-management
+  cross_ref_axes: [performance-evaluation]
+  base_severity: major
+  artifact_types: [design-controls]
+  match_logic:
+    type: cross_reference_missing
+    source:
+      artifact: design-controls
+      search_scope: design_inputs_requirements
+      keywords:
+        - "training data"
+        - "dataset"
+        - "data source"
+    target:
+      artifact: design-controls
+      search_scope: verification_validation_combined
+      keywords:
+        - "data quality"
+        - "data validation"
+        - "dataset verification"
+        - "data integrity"
+    link_description: "Training data referenced in design inputs but no V&V record validates data quality"
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA PCCP Guidance §VII.B.1 — 'Data management practices, including data collection, data quality'"
+  secondary_citations: []
+  remediation: >
+    Add V&V record for training data quality: inclusion/exclusion criteria
+    verification, annotation quality assessment, data integrity checks.
+
+---
+- id: DM-MIN-001
+  name: Dataset version not pinned in SOUP register
+  description: >
+    ML framework or dataset dependency listed in SOUP register without version
+    pinning or known anomaly assessment.
+  primary_axis: data-management
+  cross_ref_axes: []
+  base_severity: minor
+  artifact_types: [soup-register]
+  match_logic:
+    type: version_unpin
+    artifact: soup-register
+    fields:
+      - "version"
+      - "known_anomalies"
+    ml_keywords:
+      - "tensorflow"
+      - "pytorch"
+      - "scikit"
+      - "keras"
+      - "xgboost"
+      - "model"
+      - "dataset"
+      - "onnx"
+      - "huggingface"
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: false
+  primary_citation: "IEC 62304:2006+A1:2015 §5.3.3 — SOUP identification and version"
+  secondary_citations: []
+  remediation: >
+    Pin dataset/framework version in SOUP register and document known anomalies
+    assessment per IEC 62304 §5.3.3.

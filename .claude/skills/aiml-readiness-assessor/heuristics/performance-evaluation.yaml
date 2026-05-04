@@ -1,0 +1,123 @@
+# Performance Evaluation Axis — AI/ML SaMD Readiness Assessor Heuristics
+# 4 heuristics: PE-CRIT-001, PE-MAJ-001, PE-MAJ-002, PE-MIN-002
+
+---
+- id: PE-CRIT-001
+  name: No ML-specific validation methodology
+  description: >
+    Verification sheet exists but Test Data Source column is entirely empty,
+    indicating no ML-specific test data documentation. Without test data source
+    documentation, validation results are unverifiable for clinical
+    decision-making.
+  primary_axis: performance-evaluation
+  cross_ref_axes: []
+  base_severity: critical
+  artifact_types: [design-controls]
+  match_logic:
+    type: column_absence
+    artifact: design-controls
+    sheet: Verification
+    columns:
+      - "Test Data Source"
+    condition: all_empty
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: false
+  primary_citation: "FDA PCCP Guidance §VII.B.3 — 'Performance evaluation methodology'"
+  secondary_citations: []
+  remediation: >
+    Populate Test Data Source column for all verification records: describe data
+    origin, size, collection methodology, and independence from training data.
+
+---
+- id: PE-MAJ-001
+  name: No subgroup performance analysis
+  description: >
+    Validation records show overall performance metrics but no stratified
+    analysis across clinically relevant subgroups.
+  primary_axis: performance-evaluation
+  cross_ref_axes: [data-management]
+  base_severity: major
+  artifact_types: [design-controls]
+  match_logic:
+    type: keyword_absence
+    artifact: design-controls
+    search_scope: verification_validation_combined
+    required_keywords:
+      - "subgroup"
+      - "stratified"
+      - "demographic"
+      - "subpopulation"
+      - "disaggregated"
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA PCCP Guidance §VII.B.3 — 'Performance evaluation... across relevant subgroups'"
+  secondary_citations:
+    - "FDA AI/ML Action Plan — Pillar 4: Bias and robustness"
+  remediation: >
+    Add stratified performance analysis across clinically relevant subgroups
+    (age, sex, ethnicity, disease severity, comorbidities as applicable to
+    intended use).
+
+---
+- id: PE-MAJ-002
+  name: Bias testing methodology absent
+  description: >
+    Validation methodology exists but no bias or fairness testing is documented,
+    leaving potential disparate performance across protected groups undetected.
+  primary_axis: performance-evaluation
+  cross_ref_axes: [data-management]
+  base_severity: major
+  artifact_types: [design-controls]
+  match_logic:
+    type: pattern_absence
+    artifact: design-controls
+    search_scope: verification_validation_combined
+    pattern: "bias|fairness|equitab|disparate\\s+impact|discrimination\\s+test"
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: true
+    ceiling: "major"
+  primary_citation: "FDA AI/ML Action Plan — Pillar 4: 'Bias and robustness'"
+  secondary_citations: []
+  remediation: >
+    Document bias testing methodology: protected attributes, fairness metrics,
+    acceptance thresholds, and mitigation strategy.
+
+---
+- id: PE-MIN-002
+  name: No statistical analysis plan pre-specified
+  description: >
+    Validation methodology exists but no pre-specified statistical analysis plan
+    (endpoints, sample size justification, success criteria defined before
+    evaluation).
+  primary_axis: performance-evaluation
+  cross_ref_axes: []
+  base_severity: minor
+  artifact_types: [design-controls]
+  match_logic:
+    type: keyword_absence
+    artifact: design-controls
+    search_scope: verification_validation_combined
+    required_keywords:
+      - "sample size"
+      - "statistical plan"
+      - "analysis plan"
+      - "power analysis"
+      - "success criteria"
+  false_positive_guards: []
+  intake_conditions: []
+  severity_promotion:
+    eligible: false
+  primary_citation: "FDA PCCP Guidance §VII.B.3 — 'Pre-specified performance evaluation methodology'"
+  secondary_citations:
+    - "FDA Guidance: Statistical Guidance on Reporting Results (2007)"
+  remediation: >
+    Pre-specify statistical analysis plan: define primary endpoints, sample size
+    justification, success/failure criteria, and statistical tests before
+    conducting validation.
