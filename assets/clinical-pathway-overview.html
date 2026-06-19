@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinical Pathway Designer — Bridge evidence to connected device pathways</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #fff;
+    color: #1a1a2e;
+    line-height: 1.5;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 40px 40px;
+  }
+
+  /* ── Header ── */
+  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+  .header-left { max-width: 620px; }
+
+  .badge {
+    display: inline-block;
+    background: #1a56db;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  h1 span { color: #1a56db; }
+
+  .subtitle {
+    font-size: 15px;
+    color: #4b5563;
+    max-width: 520px;
+    line-height: 1.55;
+  }
+
+  .author-block {
+    text-align: right;
+    padding-top: 8px;
+  }
+  .author-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+  .author-handle {
+    font-size: 12px;
+    color: #6b7280;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── CTA strip (above fold) ── */
+  .top-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1a1a2e;
+    color: #fff;
+    border-radius: 10px;
+    padding: 14px 22px;
+    margin-bottom: 32px;
+    gap: 16px;
+  }
+  .top-cta-text {
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+  .top-cta-text strong { color: #fff; }
+  .top-cta-text .accent { color: #93c5fd; }
+  .repo-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #e5e7eb;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+  }
+  .repo-chip .star { color: #fbbf24; font-size: 14px; }
+
+  /* ── Stats Bar ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .stat {
+    background: #f9fafb;
+    padding: 20px 22px;
+    text-align: left;
+  }
+  .stat-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .stat-number small {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.3;
+  }
+
+  /* ── Flow Diagram (side-by-side cards) ── */
+  .flow-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .flow-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 24px 24px 20px;
+  }
+  .flow-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .flow-card-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #1a1a2e;
+  }
+  .flow-card-title.blue { color: #1a56db; }
+  .flow-card-title.amber { color: #d97706; }
+  .flow-status {
+    font-size: 11px;
+    color: #059669;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .flow-status::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: #059669;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 11px 14px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .flow-step:last-child { margin-bottom: 0; }
+
+  .flow-arrow {
+    text-align: center;
+    color: #d1d5db;
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+
+  .flow-output {
+    background: #fff;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+  .flow-output.blue-border { border-color: #93c5fd; }
+  .flow-output.amber-border { border-color: #fcd34d; }
+
+  .node-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .node-icon.blue { background: #dbeafe; color: #1a56db; }
+  .node-icon.amber { background: #fef3c7; color: #d97706; }
+  .node-icon.purple { background: #ede9fe; color: #7c3aed; }
+  .node-icon.red { background: #fee2e2; color: #dc2626; }
+  .node-icon.green { background: #d1fae5; color: #059669; }
+  .node-icon.gray { background: #f3f4f6; color: #6b7280; }
+
+  .node-text { line-height: 1.2; }
+  .node-name { font-weight: 600; font-size: 12px; color: #1a1a2e; }
+  .node-desc { font-size: 10px; color: #9ca3af; }
+
+  .output-name { font-weight: 700; font-size: 13px; color: #1a1a2e; }
+  .output-desc { font-size: 10.5px; color: #9ca3af; }
+
+  /* ── Data Spine Connector ── */
+  .spine-connector {
+    background: #1a1a2e;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .spine-connector-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #93c5fd;
+    margin-bottom: 8px;
+  }
+  .spine-elements {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .spine-pill {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #e5e7eb;
+  }
+
+  /* ── Evidence Anchors ── */
+  .evidence-section { margin-bottom: 32px; }
+  .evidence-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .evidence-count {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #1a56db;
+    border: 1.5px solid #1a56db;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .evidence-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+
+  .evidence-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 280px;
+    align-items: start;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f4f6;
+    gap: 12px;
+  }
+  .evidence-row:last-child { border-bottom: none; }
+
+  .evidence-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a56db;
+  }
+  .evidence-finding {
+    font-size: 12px;
+    color: #1a1a2e;
+    line-height: 1.4;
+  }
+  .evidence-finding strong { font-weight: 700; }
+  .evidence-source {
+    font-size: 11px;
+    color: #6b7280;
+    line-height: 1.35;
+  }
+
+  .pill {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    display: inline-block;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+  .pill.blue { background: #dbeafe; color: #1e40af; }
+  .pill.amber { background: #fef3c7; color: #92400e; }
+  .pill.purple { background: #ede9fe; color: #5b21b6; }
+  .pill.green { background: #d1fae5; color: #065f46; }
+  .pill.red { background: #fee2e2; color: #991b1b; }
+
+  /* ── Debug Table (Data Spine) ── */
+  .debug-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 12px;
+  }
+
+  .debug-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 28px;
+    font-size: 12.5px;
+  }
+  .debug-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #9ca3af;
+    padding: 8px 12px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  .debug-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: top;
+  }
+  .debug-table tr:last-child td { border-bottom: none; }
+
+  .data-element {
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  .workflow-use {
+    font-size: 11.5px;
+    color: #4b5563;
+    line-height: 1.4;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 28px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout-text {
+    font-size: 13px;
+    color: #1e3a5f;
+    line-height: 1.55;
+  }
+  .callout-text strong { font-weight: 700; }
+  .callout-text .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: #dbeafe;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ── Graduation (FHIR section) ── */
+  .graduation {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+  }
+  .graduation-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #065f46;
+    margin-bottom: 12px;
+  }
+  .graduation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 32px;
+  }
+  .grad-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #1a1a2e;
+  }
+  .grad-check {
+    width: 18px; height: 18px;
+    background: #059669;
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  /* ── FHIR Fields ── */
+  .fhir-section { margin-bottom: 28px; }
+  .fhir-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .fhir-count {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #059669;
+    border: 1.5px solid #059669;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .fhir-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+
+  .fhir-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    align-items: start;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f4f6;
+    gap: 12px;
+  }
+  .fhir-row:last-child { border-bottom: none; }
+  .fhir-field {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: #059669;
+  }
+  .fhir-question {
+    font-size: 12.5px;
+    color: #1a1a2e;
+    line-height: 1.4;
+  }
+  .fhir-question em {
+    font-style: normal;
+    color: #6b7280;
+  }
+
+  /* ── CTA ── */
+  .cta {
+    background: #1a1a2e;
+    color: #fff;
+    border-radius: 10px;
+    padding: 18px 24px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .cta-star {
+    color: #fbbf24;
+    font-size: 15px;
+    margin-right: 4px;
+  }
+  .cta strong { color: #fff; }
+  .cta .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(255,255,255,0.12);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: #93c5fd;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ Header ═══ -->
+<div class="header">
+  <div class="header-left">
+    <div class="badge">Clinical Pathway Designer</div>
+    <h1>Bridge <span>clinical evidence</span><br>to connected device pathways</h1>
+    <div class="subtitle">Zero connected strength training device studies in the literature. Here's the pathway design that fills the gap.</div>
+  </div>
+  <div class="author-block">
+    <div class="author-name">McCay Barnes</div>
+    <div class="author-handle">@mc-barnes</div>
+  </div>
+</div>
+
+<!-- ═══ CTA strip ═══ -->
+<div class="top-cta">
+  <div class="top-cta-text"><strong>Evidence &rarr; Pathway &rarr; Product.</strong><br><span class="accent">Provider workflow + patient journey, connected by the same device data spine.</span></div>
+  <div class="repo-chip"><span class="star">&#9733;</span> samd-os/skills</div>
+</div>
+
+<!-- ═══ Stats Bar ═══ -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-number">72&rarr;43<small>%</small></div>
+    <div class="stat-label">Adherence drop, supervised &rarr; unsupervised</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">0.81<small>&ndash;1.28</small></div>
+    <div class="stat-label">SMD effect sizes, strength + function (14 RCTs)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">0 <small>studies</small></div>
+    <div class="stat-label">Connected strength training devices in literature</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">3 <small>elements</small></div>
+    <div class="stat-label">Shared device data spine</div>
+  </div>
+</div>
+
+<!-- ═══ Flow Diagram ═══ -->
+<div class="flow-cards">
+
+  <!-- Card 1: Provider Workflow -->
+  <div class="flow-card">
+    <div class="flow-card-header">
+      <div class="flow-card-title blue">Provider Workflow</div>
+      <div class="flow-status">6 phases</div>
+    </div>
+
+    <div class="flow-step">
+      <div class="node-icon gray">&#128269;</div>
+      <div class="node-text">
+        <div class="node-name">Screening</div>
+        <div class="node-desc">SARC-F or gait speed &rarr; referral</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon blue">&#9998;</div>
+      <div class="node-text">
+        <div class="node-name">Prescription</div>
+        <div class="node-desc">progressive loading, 40&ndash;80% 1RM</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon blue">&#9634;</div>
+      <div class="node-text">
+        <div class="node-name">Assessment</div>
+        <div class="node-desc">grip, gait, TUG, chair stand</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon green">&#9881;</div>
+      <div class="node-text">
+        <div class="node-name">Active Training</div>
+        <div class="node-desc">remote monitoring + adjustment triggers</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon amber">&#128200;</div>
+      <div class="node-text">
+        <div class="node-name">Check-ins</div>
+        <div class="node-desc">6/12/24-week reassessment</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-output blue-border">
+      <div class="output-name">Maintenance</div>
+      <div class="output-desc">functional targets met &middot; reduced frequency &middot; regression alerts</div>
+    </div>
+  </div>
+
+  <!-- Card 2: Patient Journey -->
+  <div class="flow-card">
+    <div class="flow-card-header">
+      <div class="flow-card-title amber">Patient Journey</div>
+      <div class="flow-status">6 phases</div>
+    </div>
+
+    <div class="flow-step">
+      <div class="node-icon gray">&#9993;</div>
+      <div class="node-text">
+        <div class="node-name">Referral</div>
+        <div class="node-desc">direct-to-home device delivery</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon amber">&#9889;</div>
+      <div class="node-text">
+        <div class="node-name">Setup</div>
+        <div class="node-desc">guided onboarding &middot; 95% feasibility</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon blue">&#9634;</div>
+      <div class="node-text">
+        <div class="node-name">Assessment</div>
+        <div class="node-desc">device calibration + clinical baseline</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon red">&#9888;</div>
+      <div class="node-text">
+        <div class="node-name">Active Training</div>
+        <div class="node-desc">72%&rarr;43% drop-off risk window</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon green">&#10003;</div>
+      <div class="node-text">
+        <div class="node-name">Check-ins</div>
+        <div class="node-desc">micro-progress before clinical gains</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-output blue-border">
+      <div class="output-name">Maintenance</div>
+      <div class="output-desc">goal refreshing &middot; regression alerts &middot; <span style="color:#d97706;font-weight:600;">67% long-term adherence</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ Data Spine Connector ═══ -->
+<div class="spine-connector">
+  <div class="spine-connector-label">Shared Device Data Spine &mdash; connects both workflows</div>
+  <div class="spine-elements">
+    <span class="spine-pill">Load Progression</span>
+    <span class="spine-pill">Session Compliance</span>
+    <span class="spine-pill">Baseline Strength</span>
+  </div>
+</div>
+
+<!-- ═══ Data Spine Table (centerpiece) ═══ -->
+<div class="debug-label">The data spine &mdash; same data drives clinical decisions and patient engagement</div>
+<table class="debug-table">
+  <thead>
+    <tr>
+      <th style="width: 28%;">Device Data Element</th>
+      <th style="width: 36%;">Provider Workflow</th>
+      <th style="width: 36%;">Patient Journey</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="data-element">Load progression</span><br><span style="font-size:10.5px;color:#9ca3af;">weight per exercise, session-over-session</span></td>
+      <td><span class="workflow-use">Plateau detection (&lt; 5% over 4 wks) &rarr; prescription adjustment. Longitudinal curves contextualize clinical measures. Regression alerts (&gt; 10% from peak).</span></td>
+      <td><span class="workflow-use">"You're lifting 18% more than week 1." Micro-progress visible between clinical visits. Maintenance tracking vs. personal peak.</span></td>
+    </tr>
+    <tr>
+      <td><span class="data-element">Session compliance</span><br><span style="font-size:10.5px;color:#9ca3af;">completed / prescribed ratio</span></td>
+      <td><span class="workflow-use">3+ missed sessions &rarr; provider alert within 48 hrs. Adherence % reviewed at check-ins. &lt; 50% over 4 wks &rarr; escalation.</span></td>
+      <td><span class="workflow-use">Streak tracking and milestone celebrations. Frequency decline triggers PT outreach (system-initiated, not patient-initiated).</span></td>
+    </tr>
+    <tr>
+      <td><span class="data-element">Baseline strength</span><br><span style="font-size:10.5px;color:#9ca3af;">initial calibration per exercise</span></td>
+      <td><span class="workflow-use">Provider verifies calibrated loads against prescription (40&ndash;80% 1RM). Device baseline vs. clinical baseline creates complete picture.</span></td>
+      <td><span class="workflow-use">"Your program is ready" moment. All progress framed as % improvement from your personal baseline.</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══ Evidence Anchors ═══ -->
+<div class="evidence-section">
+  <div class="evidence-header">
+    <span class="evidence-count">E1&ndash;E7</span>
+    <span class="evidence-title">Evidence anchors &mdash; every claim traces here</span>
+  </div>
+
+  <div class="evidence-row">
+    <div class="evidence-id">E1</div>
+    <div class="evidence-finding"><strong>Strong recommendation, moderate certainty</strong> for resistance training as first-line sarcopenia therapy</div>
+    <div class="evidence-source"><span class="pill blue">guideline</span> ICFSR 2018 (Dent et al.) &mdash; J Nutr Health Aging 22(10):1148-1161</div>
+  </div>
+  <div class="evidence-row">
+    <div class="evidence-id">E2</div>
+    <div class="evidence-finding"><strong>SMD 0.81&ndash;1.28</strong> for strength/function; muscle mass NOT significant (SMM, ASMI, LLM all NS)</div>
+    <div class="evidence-source"><span class="pill blue">efficacy</span> Chen et al. 2021 &mdash; Eur Rev Aging Phys Act 18:23. 14 RCTs, n=561</div>
+  </div>
+  <div class="evidence-row">
+    <div class="evidence-id">E3</div>
+    <div class="evidence-finding"><strong>72% &rarr; 43%</strong> adherence when supervision genuinely removed (longitudinal, n=114)</div>
+    <div class="evidence-source"><span class="pill amber">adherence</span> Winters-Stone 2022; Gomez-Redondo 2024 MA (n=2,830)</div>
+  </div>
+  <div class="evidence-row">
+    <div class="evidence-id">E4</div>
+    <div class="evidence-finding"><strong>Zero</strong> connected strength training device studies across 34 digital interventions in 60+</div>
+    <div class="evidence-source"><span class="pill purple">digital</span> Berry et al. 2025 &mdash; Front. Aging 6:1516481</div>
+  </div>
+  <div class="evidence-row">
+    <div class="evidence-id">E5</div>
+    <div class="evidence-finding">Protein supplementation as adjunct: combined nutrition + physical activity intervention</div>
+    <div class="evidence-source"><span class="pill blue">guideline</span> ICFSR 2018, Rec 4A/4C (conditional, low certainty)</div>
+  </div>
+  <div class="evidence-row">
+    <div class="evidence-id">E6</div>
+    <div class="evidence-finding">Patient barriers: <strong>cost, transportation, lack of support</strong></div>
+    <div class="evidence-source"><span class="pill red">barriers</span> ICFSR 2018, Table 1 + patient barriers section</div>
+  </div>
+  <div class="evidence-row">
+    <div class="evidence-id">E7</div>
+    <div class="evidence-finding">Unsupervised home-based RT: <strong>67% mean adherence</strong> (range 47&ndash;97%)</div>
+    <div class="evidence-source"><span class="pill green">long-term</span> Manas et al. 2021 &mdash; Ageing Res Rev. 21 studies, n=4,053</div>
+  </div>
+</div>
+
+<!-- ═══ FHIR CarePlan Summary ═══ -->
+<div class="fhir-section">
+  <div class="fhir-header">
+    <span class="fhir-count">FHIR CAREPLAN</span>
+    <span class="fhir-title">5 fields &mdash; the minimum clinical information</span>
+  </div>
+
+  <div class="fhir-row">
+    <div class="fhir-field">addresses</div>
+    <div class="fhir-question">What am I treating? <em>&mdash; Sarcopenia (ICD-10: M62.84)</em></div>
+  </div>
+  <div class="fhir-row">
+    <div class="fhir-field">goal</div>
+    <div class="fhir-question">What outcomes am I targeting? <em>&mdash; Grip &ge; 27 kg, gait &ge; 0.8 m/s, TUG &ge; 0.9s improvement</em></div>
+  </div>
+  <div class="fhir-row">
+    <div class="fhir-field">activity</div>
+    <div class="fhir-question">What am I prescribing? <em>&mdash; Exercise therapy (SNOMED 229065009) + Diet education (11816003)</em></div>
+  </div>
+  <div class="fhir-row">
+    <div class="fhir-field">careTeam</div>
+    <div class="fhir-question">Who is involved? <em>&mdash; PCP, Exercise Physiologist/PT, Registered Dietitian</em></div>
+  </div>
+  <div class="fhir-row">
+    <div class="fhir-field">supportingInfo</div>
+    <div class="fhir-question">What device supports this? <em>&mdash; Connected resistance trainer with adaptive weight</em></div>
+  </div>
+</div>
+
+<!-- ═══ Callout ═══ -->
+<div class="callout">
+  <div class="callout-text">
+    <strong>Why illustrative, not production?</strong> This CarePlan demonstrates clinical reasoning &mdash; field selection rationale, functional goals only (not muscle mass), and the evidence-driven decision to separate exercise therapy from protein supplementation as distinct activities with different evidence grades. A production CarePlan would add <span class="mono">id</span>, <span class="mono">subject</span>, <span class="mono">period</span>, <span class="mono">author</span>, and fully expanded resources. <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6b7280;">Functional goals only &mdash; not muscle mass.</span>
+  </div>
+</div>
+
+<!-- ═══ Graduation (key design decisions) ═══ -->
+<div class="graduation">
+  <div class="graduation-label">Key design decisions &mdash; grounded in evidence, not assumption</div>
+  <div class="graduation-grid">
+    <div class="grad-item"><span class="grad-check">&#10003;</span> Goals target function (SMD 0.81&ndash;1.28) not mass (all NS)</div>
+    <div class="grad-item"><span class="grad-check">&#10003;</span> Progressive loading as key moderator (Chen 2021)</div>
+    <div class="grad-item"><span class="grad-check">&#10003;</span> TUG MCID = 0.9s for sarcopenic 65+ (not 3.4s)</div>
+    <div class="grad-item"><span class="grad-check">&#10003;</span> Adherence anchored to Winters-Stone (not generic)</div>
+    <div class="grad-item"><span class="grad-check">&#10003;</span> Every phase maps to ICFSR barriers {cost, transport, support}</div>
+    <div class="grad-item"><span class="grad-check">&#10003;</span> Device replaces 3 supervision functions</div>
+    <div class="grad-item"><span class="grad-check">&#10003;</span> Nutrition + exercise as separate activities (ICFSR 4C)</div>
+  </div>
+</div>
+
+<!-- ═══ Bottom CTA ═══ -->
+<div class="cta">
+  <span class="cta-star">&#9733;</span>
+  <strong>Zero connected strength training device studies. Here's what the pathway looks like.</strong> Full artifact: <span class="mono">examples/clinical-pathway-sarcopenia-65plus.md</span> &mdash; provider workflow, patient journey, illustrative FHIR CarePlan, and the data spine table that connects them.
+</div>
+
+</body>
+</html>

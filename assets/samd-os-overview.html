@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaMD OS — Ship regulated software at startup speed</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #fff;
+    color: #1a1a2e;
+    line-height: 1.5;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 40px 40px;
+  }
+
+  /* ── Header ── */
+  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+  .header-left { max-width: 620px; }
+
+  .badge {
+    display: inline-block;
+    background: #1a56db;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  h1 span { color: #1a56db; }
+
+  .subtitle {
+    font-size: 15px;
+    color: #4b5563;
+    max-width: 520px;
+    line-height: 1.55;
+  }
+
+  .author-block {
+    text-align: right;
+    padding-top: 8px;
+  }
+  .author-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+  .author-handle {
+    font-size: 12px;
+    color: #6b7280;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── CTA strip (above fold) ── */
+  .top-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1a1a2e;
+    color: #fff;
+    border-radius: 10px;
+    padding: 14px 22px;
+    margin-bottom: 32px;
+    gap: 16px;
+  }
+  .top-cta-text {
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+  .top-cta-text strong { color: #fff; }
+  .top-cta-text .accent { color: #93c5fd; }
+  .repo-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #e5e7eb;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+  }
+  .repo-chip .star { color: #fbbf24; font-size: 14px; }
+
+  /* ── Stats Bar ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .stat {
+    background: #f9fafb;
+    padding: 20px 22px;
+    text-align: left;
+  }
+  .stat-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .stat-number small {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.3;
+  }
+
+  /* ── Flow Diagram (side-by-side cards) ── */
+  .flow-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .flow-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 24px 24px 20px;
+  }
+  .flow-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .flow-card-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #1a1a2e;
+  }
+  .flow-card-title.blue { color: #1a56db; }
+  .flow-card-title.amber { color: #d97706; }
+  .flow-status {
+    font-size: 11px;
+    color: #059669;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .flow-status::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: #059669;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 11px 14px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .flow-step:last-child { margin-bottom: 0; }
+
+  .flow-arrow {
+    text-align: center;
+    color: #d1d5db;
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+
+  .flow-output {
+    background: #fff;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+  .flow-output.blue-border { border-color: #93c5fd; }
+  .flow-output.red-border { border-color: #fca5a5; }
+
+  .node-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .node-icon.blue { background: #dbeafe; color: #1a56db; }
+  .node-icon.amber { background: #fef3c7; color: #d97706; }
+  .node-icon.purple { background: #ede9fe; color: #7c3aed; }
+  .node-icon.red { background: #fee2e2; color: #dc2626; }
+  .node-icon.green { background: #d1fae5; color: #059669; }
+  .node-icon.gray { background: #f3f4f6; color: #6b7280; }
+
+  .node-text { line-height: 1.2; }
+  .node-name { font-weight: 600; font-size: 12px; color: #1a1a2e; }
+  .node-desc { font-size: 10px; color: #9ca3af; }
+
+  .output-name { font-weight: 700; font-size: 13px; color: #1a1a2e; }
+  .output-desc { font-size: 10.5px; color: #9ca3af; }
+
+
+  /* ── Roles ── */
+  .roles-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .roles-count {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #d97706;
+    border: 1.5px solid #d97706;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .roles-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+
+  .role-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 260px;
+    align-items: start;
+    padding: 14px 0;
+    border-bottom: 1px solid #f3f4f6;
+    gap: 12px;
+  }
+  .role-row:last-child { border-bottom: none; }
+
+  .role-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .role-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .role-dot.blue { background: #1a56db; }
+  .role-dot.amber { background: #d97706; }
+  .role-dot.purple { background: #7c3aed; }
+  .role-dot.green { background: #059669; }
+  .role-dot.red { background: #dc2626; }
+
+  .role-name { font-weight: 600; }
+  .role-subtitle { font-size: 11px; color: #9ca3af; font-style: italic; }
+
+  .role-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: flex-start;
+  }
+  .pill {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+  .pill.blue { background: #dbeafe; color: #1e40af; }
+  .pill.amber { background: #fef3c7; color: #92400e; }
+  .pill.purple { background: #ede9fe; color: #5b21b6; }
+  .pill.green { background: #d1fae5; color: #065f46; }
+  .pill.red { background: #fee2e2; color: #991b1b; }
+
+  .role-desc {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.4;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 28px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout-icon {
+    width: 28px; height: 28px;
+    background: #1a56db;
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .callout-text {
+    font-size: 13px;
+    color: #1e3a5f;
+    line-height: 1.55;
+  }
+  .callout-text strong { font-weight: 700; }
+  .callout-text .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: #dbeafe;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ── Value Props ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 16px;
+  }
+
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .value-card {
+    padding: 0;
+  }
+  .value-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: #e5e7eb;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .value-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+  }
+  .value-desc {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.45;
+  }
+
+  /* ── Graduation ── */
+  .graduation {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+  }
+  .graduation-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #065f46;
+    margin-bottom: 12px;
+  }
+  .graduation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 32px;
+  }
+  .grad-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #1a1a2e;
+  }
+  .grad-check {
+    width: 18px; height: 18px;
+    background: #059669;
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  /* ── Debug Table ── */
+  .debug-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 12px;
+  }
+
+  .debug-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 28px;
+    font-size: 12.5px;
+  }
+  .debug-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #9ca3af;
+    padding: 8px 12px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  .debug-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: top;
+  }
+  .debug-table tr:last-child td { border-bottom: none; }
+
+  .finding-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .fix-with {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #1a56db;
+    font-weight: 500;
+  }
+
+  /* ── Handoff ── */
+  .handoff {
+    background: #fefce8;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 18px 24px;
+    margin-bottom: 20px;
+  }
+  .handoff-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #92400e;
+    margin-bottom: 10px;
+  }
+  .handoff-flow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .handoff-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #1a1a2e;
+  }
+  .handoff-num {
+    width: 22px; height: 22px;
+    background: #d97706;
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .handoff-arrow { color: #d1d5db; font-size: 16px; }
+
+  /* ── CTA ── */
+  .cta {
+    background: #1a1a2e;
+    color: #fff;
+    border-radius: 10px;
+    padding: 18px 24px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .cta-star {
+    color: #fbbf24;
+    font-size: 15px;
+    margin-right: 4px;
+  }
+  .cta strong { color: #fff; }
+  .cta .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(255,255,255,0.12);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: #93c5fd;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ Header ═══ -->
+<div class="header">
+  <div class="header-left">
+    <div class="badge">SaMD Team OS</div>
+    <h1>Ship <span>regulated software</span><br>at startup speed</h1>
+    <div class="subtitle">A Claude Code workspace for SaMD teams managing change control on shipped product.</div>
+  </div>
+  <div class="author-block">
+    <div class="author-name">McCay Barnes</div>
+    <div class="author-handle">@mc-barnes</div>
+  </div>
+</div>
+
+<!-- ═══ CTA strip ═══ -->
+<div class="top-cta">
+  <div class="top-cta-text"><strong>Specialist reviewers. One repo.</strong><br><span class="accent">Authoring compresses to minutes. Review goes to substance, not cleanup.</span></div>
+  <div class="repo-chip"><span class="star">&#9733;</span> mc-barnes/samd-os</div>
+</div>
+
+<!-- ═══ Stats Bar ═══ -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-number">21 <small>skills</small></div>
+    <div class="stat-label">Generate, analyze, and review</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">6 <small>standards</small></div>
+    <div class="stat-label">IEC 62304 &middot; ISO 14971 &middot; IEC 81001-5-1</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">22 <small>templates</small></div>
+    <div class="stat-label">Every SaMD artifact type covered</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">~$2 <small>/run</small></div>
+    <div class="stat-label">Full eval suite across all fixtures</div>
+  </div>
+</div>
+
+<!-- ═══ Flow Diagram ═══ -->
+<div class="flow-cards">
+
+  <!-- Card 1: Generate -->
+  <div class="flow-card">
+    <div class="flow-card-header">
+      <div class="flow-card-title blue">Generate</div>
+      <div class="flow-status">Skills active</div>
+    </div>
+
+    <div class="flow-step">
+      <div class="node-icon gray">&#9998;</div>
+      <div class="node-text">
+        <div class="node-name">Prompt</div>
+        <div class="node-desc">natural language request</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon blue">&#9634;</div>
+      <div class="node-text">
+        <div class="node-name">Design Controls</div>
+        <div class="node-desc">requirements &rarr; specs &rarr; V&V</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon blue">&#9888;</div>
+      <div class="node-text">
+        <div class="node-name">Risk Management</div>
+        <div class="node-desc">hazard analysis + FMEA</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-output blue-border">
+      <div class="output-name">Artifact</div>
+      <div class="output-desc">XLSX &middot; JSON &middot; Markdown</div>
+    </div>
+  </div>
+
+  <!-- Card 2: Analyze -->
+  <div class="flow-card">
+    <div class="flow-card-header">
+      <div class="flow-card-title amber">Analyze</div>
+    </div>
+
+    <div class="flow-step">
+      <div class="node-icon gray">&lt;/&gt;</div>
+      <div class="node-text">
+        <div class="node-name">Codebase</div>
+        <div class="node-desc">point at your repo</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon amber">&#128269;</div>
+      <div class="node-text">
+        <div class="node-name">Code Analysis</div>
+        <div class="node-desc">SOUP &middot; hazards &middot; design inputs</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-step">
+      <div class="node-icon purple">&#9881;</div>
+      <div class="node-text">
+        <div class="node-name">Review Panel</div>
+        <div class="node-desc">specialist reviewers in parallel</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-output red-border">
+      <div class="output-name">Verdict</div>
+      <div class="output-desc">ACCEPTABLE &middot; NEEDS REVISION</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ Roles ═══ -->
+<div style="margin-bottom: 28px;">
+  <div class="roles-header">
+    <span class="roles-count">SKILLS &middot; REVIEWERS</span>
+    <span class="roles-title">What each layer does</span>
+  </div>
+
+  <div class="role-row">
+    <div class="role-label">
+      <span class="role-dot blue"></span>
+      <div>
+        <div class="role-name">Builder Skills</div>
+        <div class="role-subtitle">The generators</div>
+      </div>
+    </div>
+    <div class="role-pills">
+      <span class="pill blue">PRD Writer SaMD</span>
+      <span class="pill blue">Design Controls</span>
+      <span class="pill blue">Risk Management</span>
+      <span class="pill blue">Change Impact</span>
+      <span class="pill blue">Design Review</span>
+      <span class="pill blue">FHIR Builder</span>
+    </div>
+    <div class="role-desc">Generate regulatory artifacts (XLSX, JSON, MD) from prompts with full traceability IDs</div>
+  </div>
+
+  <div class="role-row">
+    <div class="role-label">
+      <span class="role-dot amber"></span>
+      <div>
+        <div class="role-name">Reverse Engineering</div>
+        <div class="role-subtitle">The catch-up path</div>
+      </div>
+    </div>
+    <div class="role-pills">
+      <span class="pill amber">Code &rarr; SOUP</span>
+      <span class="pill amber">Code &rarr; Design Inputs</span>
+      <span class="pill amber">Code &rarr; Hazards</span>
+    </div>
+    <div class="role-desc">Scan your codebase to extract what you should have documented before you shipped</div>
+  </div>
+
+  <div class="role-row">
+    <div class="role-label">
+      <span class="role-dot red"></span>
+      <div>
+        <div class="role-name">Specialist Reviewers</div>
+        <div class="role-subtitle">The red team</div>
+      </div>
+    </div>
+    <div class="role-pills">
+      <span class="pill red">Regulatory</span>
+      <span class="pill red">QA</span>
+      <span class="pill red">Safety</span>
+      <span class="pill red">Cybersecurity</span>
+      <span class="pill red">Clinical</span>
+    </div>
+    <div class="role-desc">Citation discipline against pinned standards. Each operates from a defined regulatory or clinical perspective.</div>
+  </div>
+
+  <div class="role-row">
+    <div class="role-label">
+      <span class="role-dot green"></span>
+      <div>
+        <div class="role-name">PM Skills</div>
+        <div class="role-subtitle">The day-to-day</div>
+      </div>
+    </div>
+    <div class="role-pills">
+      <span class="pill green">PRD Writer</span>
+      <span class="pill green">Metrics</span>
+      <span class="pill green">Decision Doc</span>
+      <span class="pill green">Status Update</span>
+      <span class="pill green">Competitive</span>
+      <span class="pill green">Roadmap</span>
+    </div>
+    <div class="role-desc">Product management artifacts that don't need regulatory traceability</div>
+  </div>
+</div>
+
+<!-- ═══ Debug Table ═══ -->
+<div class="debug-label">When your artifacts get flagged, debug from the skill level</div>
+<table class="debug-table">
+  <thead>
+    <tr>
+      <th style="width: 25%;">Finding</th>
+      <th>Root Cause</th>
+      <th style="width: 25%; text-align: right;">Fix With</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="finding-dot"></span>Missing traceability</td>
+      <td>Design inputs not linked to user needs or V&V</td>
+      <td style="text-align: right;"><span class="fix-with">design-controls</span></td>
+    </tr>
+    <tr>
+      <td><span class="finding-dot"></span>SOUP gaps</td>
+      <td>Dependencies in lock file not in register</td>
+      <td style="text-align: right;"><span class="fix-with">code-to-soup-register</span></td>
+    </tr>
+    <tr>
+      <td><span class="finding-dot"></span>Unmitigated hazards</td>
+      <td>Risk analysis only covers happy path</td>
+      <td style="text-align: right;"><span class="fix-with">risk-management</span></td>
+    </tr>
+    <tr>
+      <td><span class="finding-dot"></span>Cyber gaps</td>
+      <td>No SBOM, no threat model, no CVD plan</td>
+      <td style="text-align: right;"><span class="fix-with">cybersecurity-reviewer</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══ Callout (merged pillars + boundary) ═══ -->
+<div class="callout">
+  <div class="callout-text">
+    <strong>Why drafts, not final records?</strong> Every output is an uncontrolled draft. Your eQMS holds the approved records. Claude accelerates authoring &mdash; your QMS owns the truth. The <span class="mono">review-panel</span> orchestrator dispatches your artifact to all reviewers in parallel. The most conservative verdict wins. <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6b7280;">Compatible with any eQMS.</span>
+  </div>
+</div>
+
+<!-- ═══ Graduation Criteria ═══ -->
+<div class="graduation">
+  <div class="graduation-label">Submission-ready checklist &mdash; when your DHF drafts are ready for eQMS</div>
+  <div class="graduation-grid">
+    <div class="grad-item"><span class="grad-check">&#10003;</span> Design controls trace requirements &rarr; specs &rarr; V&V</div>
+    <div class="grad-item"><span class="grad-check">&#10003;</span> SOUP register matches actual dependencies</div>
+    <div class="grad-item"><span class="grad-check">&#10003;</span> Risk analysis covers all identified hazards</div>
+    <div class="grad-item"><span class="grad-check">&#10003;</span> All reviewers return ACCEPTABLE verdicts</div>
+  </div>
+</div>
+
+<!-- ═══ Handoff ═══ -->
+<div class="handoff">
+  <div class="handoff-label">Getting Started &mdash; One Sprint</div>
+  <div class="handoff-flow">
+    <div class="handoff-step">
+      <span class="handoff-num">1</span>
+      Clone the repo and open in Claude Code
+    </div>
+    <span class="handoff-arrow">&rarr;</span>
+    <div class="handoff-step">
+      <span class="handoff-num">2</span>
+      Run <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; background: #fef3c7; padding: 2px 6px; border-radius: 3px;">/design-controls</span> on your codebase
+    </div>
+    <span class="handoff-arrow">&rarr;</span>
+    <div class="handoff-step">
+      <span class="handoff-num">3</span>
+      Traceability matrix draft in minutes
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Bottom CTA ═══ -->
+<div class="cta">
+  <span class="cta-star">&#9733;</span>
+  <strong>github.com/mc-barnes/samd-os</strong> &mdash; MIT licensed. Open source, self-hosted, citation-disciplined. Clone it, run <span class="mono">/design-controls</span> on your codebase, and see what comes back.
+</div>
+
+</body>
+</html>
